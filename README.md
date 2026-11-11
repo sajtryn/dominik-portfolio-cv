@@ -1,30 +1,36 @@
-# dominik-portfolio-cv
-Interactive B2B portfolio, custom ERP dashboard, and AI web showcase built with Next.js.
-# Dominik - Interactive Portfolio & CV 🚀
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-A modern, interactive portfolio and web application showcase built to demonstrate full-stack capabilities, business logic implementation, and AI integrations. 
+## Getting Started
 
-## 🛠 Tech Stack
-- **Frontend:** Next.js (React), TypeScript, Tailwind CSS
-- **Backend / API:** Python (FastAPI/Flask) - *planned for AI integrations*
-- **Deployment:** Netlify (CI/CD)
-- **Tools:** Cursor, Claude AI, Git
+First, run the development server:
 
-## 💻 Featured Projects (In Development)
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-### 1. Workshop ERP & CRM System
-A comprehensive web application designed for custom vehicle conversion businesses. 
-- **Features:** Kanban-style workflow tracking, inventory management (materials, heating systems, pop-top roofs), and automated dynamic PDF quote generation for international clients.
-- **Goal:** Demonstrating complex state management and business logic mapping in React.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### 2. AI Web Assistant
-A browser-based interface for a custom Python-driven AI assistant.
-- **Features:** Voice-to-text integration, real-time API communication, and command execution.
-- **Goal:** Showcasing integration of modern frontend technologies with external LLM APIs and local backend architecture.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## ⚙️ Local Development
-To run this project locally:
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-1. Clone the repository:
-   ```bash
-   git clone [https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git)
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
