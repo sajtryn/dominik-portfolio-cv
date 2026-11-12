@@ -11,6 +11,7 @@ import {
 } from "framer-motion";
 import {
   ArrowRight,
+  ChevronDown,
   Cloud,
   Database,
   Sparkles,
@@ -20,6 +21,10 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ResumeSection from "./components/ResumeSection";
+import ProjectsSection from "./components/ProjectsSection";
+import ContactSection from "./components/ContactSection";
+import LanguageSwitcher from "./components/LanguageSwitcher";
+import { useLanguage } from "@/context/LanguageContext";
 
 /* ---------------------------------- Data ---------------------------------- */
 
@@ -38,7 +43,7 @@ const TECH_BADGES: TechBadge[] = [
   {
     label: "Python",
     icon: Terminal,
-    position: "left-[4%] top-[18%] md:left-[10%] md:top-[22%]",
+    position: "left-[6%] top-[16%] xl:left-[10%] xl:top-[20%]",
     glow: "shadow-[0_0_40px_-6px_rgba(250,204,21,0.45)]",
     iconColor: "text-yellow-300",
     float: { y: [0, -18, 0], x: [0, 6, 0], rotate: [-6, -2, -6] },
@@ -48,7 +53,7 @@ const TECH_BADGES: TechBadge[] = [
   {
     label: "Next.js",
     icon: Triangle,
-    position: "right-[4%] top-[14%] md:right-[11%] md:top-[18%]",
+    position: "right-[6%] top-[13%] xl:right-[11%] xl:top-[17%]",
     glow: "shadow-[0_0_40px_-6px_rgba(255,255,255,0.35)]",
     iconColor: "text-white",
     float: { y: [0, 16, 0], x: [0, -8, 0], rotate: [5, 1, 5] },
@@ -58,7 +63,7 @@ const TECH_BADGES: TechBadge[] = [
   {
     label: "AWS",
     icon: Cloud,
-    position: "left-[6%] bottom-[14%] md:left-[13%] md:bottom-[18%]",
+    position: "left-[6%] bottom-[8%] xl:left-[12%] xl:bottom-[12%]",
     glow: "shadow-[0_0_40px_-6px_rgba(251,146,60,0.45)]",
     iconColor: "text-orange-300",
     float: { y: [0, 14, 0], x: [0, 10, 0], rotate: [4, 8, 4] },
@@ -68,7 +73,7 @@ const TECH_BADGES: TechBadge[] = [
   {
     label: "Database",
     icon: Database,
-    position: "right-[5%] bottom-[12%] md:right-[12%] md:bottom-[20%]",
+    position: "right-[6%] bottom-[7%] xl:right-[11%] xl:bottom-[13%]",
     glow: "shadow-[0_0_40px_-6px_rgba(34,211,238,0.45)]",
     iconColor: "text-cyan-300",
     float: { y: [0, -14, 0], x: [0, -6, 0], rotate: [-4, -9, -4] },
@@ -144,12 +149,20 @@ function BlueprintGrid({ reduced }: { reduced: boolean }) {
   );
 }
 
-function FloatingBadge({ badge, reduced }: { badge: TechBadge; reduced: boolean }) {
+function FloatingBadge({
+  badge,
+  label,
+  reduced,
+}: {
+  badge: TechBadge;
+  label: string;
+  reduced: boolean;
+}) {
   const Icon = badge.icon;
   return (
     <motion.div
       aria-hidden
-      className={cn("pointer-events-none absolute z-10 hidden sm:block", badge.position)}
+      className={cn("pointer-events-none absolute z-10 hidden lg:block", badge.position)}
       initial={{ opacity: 0, scale: 0.6 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: badge.delay, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -170,7 +183,7 @@ function FloatingBadge({ badge, reduced }: { badge: TechBadge; reduced: boolean 
           <Icon className={cn("size-[18px]", badge.iconColor)} strokeWidth={1.75} />
         </span>
         <span className="font-mono text-xs tracking-wider text-slate-300">
-          {badge.label}
+          {label}
         </span>
       </motion.div>
     </motion.div>
@@ -240,6 +253,7 @@ function MagneticButton({
 
 export default function Home() {
   const reduced = useReducedMotion() ?? false;
+  const { t } = useLanguage();
 
   const mouseX = useMotionValue(-1000);
   const mouseY = useMotionValue(-1000);
@@ -256,6 +270,8 @@ export default function Home() {
 
   return (
     <main className="flex flex-1 flex-col bg-[#05060a] font-sans text-slate-100">
+      <LanguageSwitcher />
+
       <section
         onMouseMove={handleMouseMove}
         className="relative isolate flex min-h-svh items-center justify-center overflow-hidden px-4 py-24 sm:px-6"
@@ -280,7 +296,12 @@ export default function Home() {
         />
 
         {TECH_BADGES.map((badge) => (
-          <FloatingBadge key={badge.label} badge={badge} reduced={reduced} />
+          <FloatingBadge
+            key={badge.label}
+            badge={badge}
+            label={badge.label === "Database" ? t.hero.badgeDatabase : badge.label}
+            reduced={reduced}
+          />
         ))}
 
         {/* Center content */}
@@ -298,7 +319,7 @@ export default function Home() {
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex size-2 rounded-full bg-emerald-400" />
             </span>
-            Available for B2B projects
+            {t.hero.availability}
           </motion.div>
 
           <motion.h1
@@ -313,28 +334,36 @@ export default function Home() {
             className="mt-5 flex items-center gap-2 font-mono text-sm uppercase tracking-[0.18em] text-slate-300 sm:text-base"
           >
             <Sparkles className="size-4 text-purple-400" aria-hidden />
-            Software Engineer &amp; B2B Tech Partner
+            {t.hero.subtitle}
           </motion.p>
 
           <motion.p
             variants={item}
             className="mt-6 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg"
           >
-            Bridging the gap between robust software architecture and real-world
-            business logic. Building scalable web applications, custom ERPs, and
-            AI integrations.
+            {t.hero.description}
           </motion.p>
 
           <motion.div
             variants={item}
             className="mt-10 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row"
           >
-            <MagneticButton href="#resume">Explore My Work</MagneticButton>
+            <MagneticButton href="#projects">{t.hero.ctaWork}</MagneticButton>
+            <a
+              href="#about"
+              className="group inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-slate-300 transition-colors duration-300 hover:bg-white/[0.04] hover:text-cyan-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#05060a]"
+            >
+              {t.hero.ctaAbout}
+              <ChevronDown
+                aria-hidden
+                className="size-4 transition-transform duration-300 group-hover:translate-y-0.5"
+              />
+            </a>
             <a
               href="#contact"
               className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/[0.03] px-7 py-3.5 text-sm font-semibold text-slate-200 backdrop-blur transition-colors duration-300 hover:border-cyan-400/50 hover:bg-cyan-400/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#05060a]"
             >
-              Let&apos;s Talk Business
+              {t.hero.ctaContact}
             </a>
           </motion.div>
         </motion.div>
@@ -347,6 +376,8 @@ export default function Home() {
       </section>
 
       <ResumeSection />
+      <ProjectsSection />
+      <ContactSection />
     </main>
   );
 }

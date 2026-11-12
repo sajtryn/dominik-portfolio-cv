@@ -32,125 +32,54 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import BackToTop from "./BackToTop";
+import { useLanguage } from "@/context/LanguageContext";
+import type { Dictionary } from "@/translations";
 
 /* ---------------------------------- Data ---------------------------------- */
+// Text lives in /translations.ts; these arrays only hold what doesn't change
+// with the language (icons, styling, bar widths). Order matches the dictionary.
 
-const ABOUT =
-  "Full-stack Developer & Tech Entrepreneur. Specializing in delivering reliable web applications and B2B solutions. I take full responsibility for end-to-end project execution, combining network engineering, modern development, and business acumen.";
+const COMPANY = "VictoriaCamp-IT";
 
-const EXPERIENCE = [
-  {
-    company: "VictoriaCamp-IT",
-    role: "Owner / Project Manager",
-    period: "Own business",
-    description:
-      "Full business lifecycle management. Responsible for B2B client acquisition, marketing, quoting, and coordinating subcontractors. Extensive experience in logistics, budget planning, and solving real business problems, including foreign client relations.",
-    tags: [
-      "B2B Sales",
-      "Marketing",
-      "Quoting",
-      "Subcontractors",
-      "Logistics",
-      "Budgeting",
-      "International clients",
-    ],
-  },
+const EDUCATION_META: { icon: LucideIcon; current?: boolean }[] = [
+  { icon: GraduationCap, current: true },
+  { icon: ScrollText },
+  { icon: BadgeCheck },
+  { icon: Award },
 ];
 
-type EducationItem = {
-  title: string;
-  detail: string;
-  badge: string;
-  icon: LucideIcon;
-  current?: boolean;
-};
-
-const EDUCATION: EducationItem[] = [
-  {
-    title: "Industrial Computer Networks",
-    detail: "Computer Science · University of Zielona Góra",
-    badge: "Currently",
-    icon: GraduationCap,
-    current: true,
-  },
-  {
-    title: "IT Technician Diploma",
-    detail: "Professional technician qualification in IT",
-    badge: "Diploma",
-    icon: ScrollText,
-  },
-  {
-    title: "State Exams: EE.08 & EE.09",
-    detail:
-      "EE.08 — Assembly and operation of computer systems and networks. EE.09 — Programming, web development, and databases.",
-    badge: "Certified",
-    icon: BadgeCheck,
-  },
-  {
-    title: "Cisco Certification",
-    detail: "Proven knowledge in network infrastructure.",
-    badge: "Cisco",
-    icon: Award,
-  },
-];
-
-type StackGroup = {
-  title: string;
+const STACK_META: {
+  key: keyof Dictionary["resume"]["stack"];
   icon: LucideIcon;
   accent: string;
-  items: { label: string; icon: LucideIcon }[];
-};
-
-const STACK: StackGroup[] = [
+  itemIcons: LucideIcon[];
+}[] = [
   {
-    title: "Core",
+    key: "core",
     icon: Code2,
     accent: "before:from-cyan-400/15",
-    items: [
-      { label: "React", icon: Atom },
-      { label: "Next.js", icon: Triangle },
-      { label: "Python", icon: Terminal },
-      { label: "Databases", icon: Database },
-    ],
+    itemIcons: [Atom, Triangle, Terminal, Database],
   },
   {
-    title: "Infrastructure",
+    key: "infrastructure",
     icon: Network,
     accent: "before:from-sky-400/15",
-    items: [
-      { label: "Industrial computer networks", icon: Network },
-      { label: "Local network infrastructure", icon: Cable },
-      { label: "Server administration", icon: Server },
-    ],
+    itemIcons: [Network, Cable, Server],
   },
   {
-    title: "Workflow",
+    key: "workflow",
     icon: Workflow,
     accent: "before:from-purple-400/15",
-    items: [
-      { label: "Git", icon: GitBranch },
-      { label: "GitHub", icon: Code2 },
-      { label: "Jira", icon: SquareKanban },
-    ],
+    itemIcons: [GitBranch, Code2, SquareKanban],
   },
 ];
 
-const LANGUAGES = [
-  { name: "English", level: "Fluent", value: 90 },
-  { name: "German", level: "Business written", value: 60 },
-];
+const LANGUAGE_LEVELS = [100, 90, 60];
 
-const TEAMWORK = [
-  { label: "Coordinating subcontractors", icon: Handshake },
-  { label: "Leading university group projects", icon: Users },
-];
+const TEAMWORK_ICONS = [Handshake, Users];
 
-const HOBBIES: { label: string; icon: LucideIcon }[] = [
-  { label: "Strength training", icon: Dumbbell },
-  { label: "Playing guitar", icon: Guitar },
-  { label: "Football", icon: Goal },
-  { label: "PC gaming", icon: Gamepad2 },
-];
+const HOBBY_ICONS = [Dumbbell, Guitar, Goal, Gamepad2];
 
 /* ------------------------------- Animations ------------------------------- */
 
@@ -238,10 +167,12 @@ function Tag({ children }: { children: ReactNode }) {
 export default function ResumeSection() {
   const reduced = useReducedMotion() ?? false;
   const initial = reduced ? "show" : "hidden";
+  const { t } = useLanguage();
+  const r = t.resume;
 
   return (
     <section
-      id="resume"
+      id="about"
       className="relative isolate overflow-hidden px-4 py-24 sm:px-6 sm:py-32"
     >
       {/* Ambient glow + faint grid continuing the hero's blueprint */}
@@ -276,17 +207,17 @@ export default function ResumeSection() {
             variants={fadeUp}
             className="font-mono text-xs uppercase tracking-[0.3em] text-cyan-300/80"
           >
-            {"// 02 — Resume & Experience"}
+            {r.eyebrow}
           </motion.p>
           <motion.h2
             variants={fadeUp}
             className="text-3xl font-bold tracking-tight text-slate-100 sm:text-5xl"
           >
-            Engineering meets{" "}
+            {r.titleStart}{" "}
             <span className="bg-gradient-to-r from-cyan-300 to-purple-500 bg-clip-text text-transparent">
-              business
+              {r.titleAccent}
             </span>
-            .
+            {r.titleEnd}
           </motion.h2>
         </motion.header>
 
@@ -301,20 +232,20 @@ export default function ResumeSection() {
           <GlassCard className="lg:col-span-12">
             <div className="flex flex-col gap-6 md:flex-row md:items-start md:gap-10">
               <div className="md:w-56 md:shrink-0">
-                <CardHeading icon={User} label="01" title="About Me" />
+                <CardHeading icon={User} label="01" title={r.cards.about} />
               </div>
               <p className="text-base leading-relaxed text-slate-300 sm:text-lg">
-                {ABOUT}
+                {r.about}
               </p>
             </div>
           </GlassCard>
 
           {/* 2. Experience */}
           <GlassCard className="lg:col-span-7">
-            <CardHeading icon={Briefcase} label="02" title="Experience" />
+            <CardHeading icon={Briefcase} label="02" title={r.cards.experience} />
             <ol className="relative space-y-8 border-l border-white/10 pl-6">
-              {EXPERIENCE.map((job) => (
-                <li key={job.company} className="relative">
+              {[r.job].map((job) => (
+                <li key={COMPANY} className="relative">
                   <span
                     aria-hidden
                     className="absolute -left-[31px] top-1 grid size-4 place-items-center rounded-full border border-cyan-400/60 bg-[#05060a]"
@@ -324,7 +255,7 @@ export default function ResumeSection() {
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                     <h4 className="flex items-center gap-2 text-lg font-semibold text-slate-100">
                       <Building2 className="size-4 text-cyan-300" aria-hidden />
-                      {job.company}
+                      {COMPANY}
                     </h4>
                     <span className="font-mono text-[11px] uppercase tracking-wider text-purple-300/80">
                       {job.period}
@@ -351,13 +282,14 @@ export default function ResumeSection() {
             <CardHeading
               icon={GraduationCap}
               label="03"
-              title="Education & Certifications"
+              title={r.cards.education}
             />
             <ol className="relative space-y-6 border-l border-white/10 pl-6">
-              {EDUCATION.map((edu) => {
-                const Icon = edu.icon;
+              {r.education.map((text, i) => {
+                const { icon: Icon, current } = EDUCATION_META[i];
+                const edu = { ...text, current };
                 return (
-                  <li key={edu.title} className="relative">
+                  <li key={i} className="relative">
                     <span
                       aria-hidden
                       className={cn(
@@ -408,13 +340,14 @@ export default function ResumeSection() {
 
           {/* 4. Tech stack */}
           <GlassCard className="lg:col-span-12">
-            <CardHeading icon={Code2} label="04" title="Tech Stack & Tools" />
+            <CardHeading icon={Code2} label="04" title={r.cards.stack} />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              {STACK.map((group) => {
-                const GroupIcon = group.icon;
+              {STACK_META.map((meta) => {
+                const GroupIcon = meta.icon;
+                const group = { ...r.stack[meta.key], accent: meta.accent };
                 return (
                   <div
-                    key={group.title}
+                    key={meta.key}
                     className={cn(
                       "relative overflow-hidden rounded-xl border border-white/[0.07] bg-black/20 p-5",
                       "before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-16 before:bg-gradient-to-b before:to-transparent",
@@ -428,11 +361,11 @@ export default function ResumeSection() {
                       </h4>
                     </div>
                     <ul className="relative grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-1">
-                      {group.items.map((it) => {
-                        const ItemIcon = it.icon;
+                      {group.items.map((label, i) => {
+                        const ItemIcon = meta.itemIcons[i] ?? Code2;
                         return (
                           <li
-                            key={it.label}
+                            key={i}
                             className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2.5 text-sm text-slate-200 transition-colors duration-300 hover:border-cyan-400/30 hover:bg-cyan-400/[0.05]"
                           >
                             <ItemIcon
@@ -440,7 +373,7 @@ export default function ResumeSection() {
                               strokeWidth={1.75}
                               aria-hidden
                             />
-                            {it.label}
+                            {label}
                           </li>
                         );
                       })}
@@ -456,11 +389,13 @@ export default function ResumeSection() {
             <CardHeading
               icon={Languages}
               label="05"
-              title="Soft Skills & Languages"
+              title={r.cards.softSkills}
             />
             <div className="space-y-5">
-              {LANGUAGES.map((lang) => (
-                <div key={lang.name}>
+              {r.languages.map((text, i) => {
+                const lang = { ...text, value: LANGUAGE_LEVELS[i] ?? 50 };
+                return (
+                <div key={i}>
                   <div className="mb-2 flex items-center justify-between gap-3 text-sm">
                     <span className="flex items-center gap-2 font-medium text-slate-100">
                       <Globe className="size-4 text-cyan-300" aria-hidden />
@@ -480,34 +415,40 @@ export default function ResumeSection() {
                     />
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="mt-8 border-t border-white/[0.06] pt-6">
               <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] text-slate-500">
-                Teamwork
+                {r.teamworkLabel}
               </p>
               <ul className="space-y-2.5">
-                {TEAMWORK.map(({ label, icon: Icon }) => (
+                {r.teamwork.map((label, i) => {
+                  const Icon = TEAMWORK_ICONS[i] ?? Users;
+                  return (
                   <li
-                    key={label}
+                    key={i}
                     className="flex items-center gap-3 text-sm text-slate-300"
                   >
                     <Icon className="size-4 text-purple-300" aria-hidden />
                     {label}
                   </li>
-                ))}
+                  );
+                })}
               </ul>
             </div>
           </GlassCard>
 
           {/* 6. After hours */}
           <GlassCard className="lg:col-span-6">
-            <CardHeading icon={Gamepad2} label="06" title="After Hours" />
+            <CardHeading icon={Gamepad2} label="06" title={r.cards.hobbies} />
             <div className="grid grid-cols-2 gap-3">
-              {HOBBIES.map(({ label, icon: Icon }) => (
+              {r.hobbies.map((label, i) => {
+                const Icon = HOBBY_ICONS[i] ?? Gamepad2;
+                return (
                 <motion.div
-                  key={label}
+                  key={i}
                   whileHover={reduced ? undefined : { y: -4 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   className="group/hobby flex flex-col items-center justify-center gap-3 rounded-xl border border-white/[0.07] bg-black/20 px-3 py-6 text-center transition-colors duration-300 hover:border-purple-400/30 hover:bg-purple-400/[0.05]"
@@ -517,10 +458,13 @@ export default function ResumeSection() {
                   </span>
                   <span className="text-sm text-slate-300">{label}</span>
                 </motion.div>
-              ))}
+                );
+              })}
             </div>
           </GlassCard>
         </motion.div>
+
+        <BackToTop />
       </div>
     </section>
   );
