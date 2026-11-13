@@ -1,6 +1,7 @@
 "use client";
 
 import type { MouseEvent } from "react";
+import Link from "next/link";
 import {
   motion,
   useMotionTemplate,
@@ -10,7 +11,7 @@ import {
   useTransform,
   type Variants,
 } from "framer-motion";
-import { ArrowUpRight, Bot, Server, type LucideIcon } from "lucide-react";
+import { ArrowUpRight, Bot, Caravan, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import type { ProjectId } from "@/translations";
@@ -23,7 +24,11 @@ type ProjectMeta = {
   id: ProjectId;
   icon: LucideIcon;
   stack: string[];
-  /** Live demo URL. Leave null until there's something to link to. */
+  /**
+   * Live demo link. A path like "/projects/x" opens in the same tab; a full
+   * URL opens in a new one. "#" (or null) is a placeholder: the button shows
+   * as "coming soon" and isn't clickable.
+   */
   href: string | null;
   /** Accent used for the mockup glow and spotlight. */
   accent: { rgb: string; text: string; from: string };
@@ -31,17 +36,17 @@ type ProjectMeta = {
 
 const PROJECTS: ProjectMeta[] = [
   {
-    id: "erp",
-    icon: Server,
+    id: "camper",
+    icon: Caravan,
     stack: ["Next.js", "TypeScript", "Tailwind"],
-    href: null,
+    href: "/projects/smart-camper",
     accent: { rgb: "34,211,238", text: "text-cyan-300", from: "from-cyan-500/25" },
   },
   {
     id: "voice",
     icon: Bot,
     stack: ["Python", "OpenAI API", "React"],
-    href: null,
+    href: "/projects/ai-terminal",
     accent: { rgb: "168,85,247", text: "text-purple-300", from: "from-purple-500/25" },
   },
 ];
@@ -269,11 +274,12 @@ function ProjectCard({
           </ul>
 
           <div className="mt-auto pt-6">
-            {project.href ? (
-              <a
+            {project.href && project.href !== "#" ? (
+              <Link
                 href={project.href}
-                target="_blank"
-                rel="noopener noreferrer"
+                {...(project.href.startsWith("/")
+                  ? {}
+                  : { target: "_blank", rel: "noopener noreferrer" })}
                 className="group/launch inline-flex items-center gap-2 rounded-lg px-3 py-2 -ml-3 text-sm font-semibold text-slate-200 transition-colors duration-300 hover:bg-white/[0.05] hover:text-cyan-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
               >
                 {p.launch}
@@ -281,7 +287,7 @@ function ProjectCard({
                   aria-hidden
                   className="size-4 transition-transform duration-300 group-hover/launch:-translate-y-0.5 group-hover/launch:translate-x-0.5"
                 />
-              </a>
+              </Link>
             ) : (
               // No demo URL yet: same look, but not clickable.
               <span

@@ -118,16 +118,16 @@ const en = {
     titleAccent: "ship",
     titleEnd: ".",
     intro:
-      "Selected work where software architecture meets real operational problems.",
+      "Beyond standard web development. A collection of interactive demos highlighting my versatility across network telemetry, backend logic, and AI modeling.",
     featured: "Featured",
     launch: "Launch App",
     comingSoon: "Live demo coming soon",
     items: {
-      erp: {
-        category: "Custom ERP · B2B",
-        title: "VictoriaCamp-IT ERP",
+      camper: {
+        category: "Industrial IoT · Live demo",
+        title: "Smart Camper IoT Telemetry",
         description:
-          "Custom web application for managing campervan conversions. Features production tracking, B2B logistics, and dynamic PDF quote generation.",
+          "Real-time industrial IoT dashboard monitoring campervan sensors and allowing remote equipment control.",
       },
       voice: {
         category: "AI Assistant · Voice",
@@ -311,16 +311,16 @@ const pl: Dictionary = {
     titleAccent: "działać",
     titleEnd: ".",
     intro:
-      "Wybrane realizacje, w których architektura oprogramowania spotyka realne problemy operacyjne.",
+      "Więcej niż standardowe strony www. Kolekcja interaktywnych demonstracji podkreślających moją wszechstronność w telemetrii sieciowej, logice backendowej i modelowaniu AI.",
     featured: "Wyróżnione",
     launch: "Uruchom aplikację",
     comingSoon: "Demo na żywo już wkrótce",
     items: {
-      erp: {
-        category: "Dedykowany ERP · B2B",
-        title: "VictoriaCamp-IT ERP",
+      camper: {
+        category: "Przemysłowe IoT · Demo na żywo",
+        title: "Smart Camper IoT Telemetry",
         description:
-          "Dedykowana aplikacja webowa do zarządzania zabudowami kamperów. Śledzenie produkcji, logistyka B2B i dynamiczne generowanie wycen w PDF.",
+          "Przemysłowy dashboard IoT działający w czasie rzeczywistym, monitorujący czujniki kampera i umożliwiający zdalne sterowanie urządzeniami.",
       },
       voice: {
         category: "Asystent AI · Głos",
@@ -498,16 +498,16 @@ const de: Dictionary = {
     titleAccent: "Einsatz",
     titleEnd: ".",
     intro:
-      "Ausgewählte Arbeiten, bei denen Softwarearchitektur auf reale betriebliche Herausforderungen trifft.",
+      "Mehr als Standard-Webentwicklung. Eine Sammlung interaktiver Demos, die meine Vielseitigkeit in den Bereichen Netzwerktelemetrie, Backend-Logik und KI-Modellierung unterstreichen.",
     featured: "Highlight",
     launch: "App starten",
     comingSoon: "Live-Demo folgt in Kürze",
     items: {
-      erp: {
-        category: "Individuelles ERP · B2B",
-        title: "VictoriaCamp-IT ERP",
+      camper: {
+        category: "Industrielles IoT · Live-Demo",
+        title: "Smart Camper IoT Telemetry",
         description:
-          "Individuelle Webanwendung zur Verwaltung von Wohnmobil-Ausbauten. Mit Produktionsverfolgung, B2B-Logistik und dynamischer Erstellung von PDF-Angeboten.",
+          "Industrielles Echtzeit-IoT-Dashboard, das die Sensoren eines Campervans überwacht und die Ausstattung aus der Ferne steuert.",
       },
       voice: {
         category: "KI-Assistent · Sprache",
