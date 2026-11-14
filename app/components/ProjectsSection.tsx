@@ -11,7 +11,7 @@ import {
   useTransform,
   type Variants,
 } from "framer-motion";
-import { ArrowUpRight, Bot, Caravan, type LucideIcon } from "lucide-react";
+import { ArrowUpRight, Bot, Caravan, Dumbbell, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import type { ProjectId } from "@/translations";
@@ -48,6 +48,13 @@ const PROJECTS: ProjectMeta[] = [
     stack: ["Python", "OpenAI API", "React"],
     href: "/projects/ai-terminal",
     accent: { rgb: "168,85,247", text: "text-purple-300", from: "from-purple-500/25" },
+  },
+  {
+    id: "traineros",
+    icon: Dumbbell,
+    stack: ["Next.js", "TypeScript", "Framer Motion"],
+    href: "/projects/traineros",
+    accent: { rgb: "163,230,53", text: "text-lime-300", from: "from-lime-500/25" },
   },
 ];
 
@@ -370,7 +377,7 @@ export default function ProjectsSection() {
           initial={initial}
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}
-          className="grid grid-cols-1 gap-6 md:grid-cols-2"
+          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
           {PROJECTS.map((project, i) => (
             <ProjectCard

@@ -135,6 +135,12 @@ const en = {
         description:
           "Web-based interface for a custom Python AI assistant, featuring real-time speech processing and autonomous function calling.",
       },
+      traineros: {
+        category: "B2B SaaS · Phase 1",
+        title: "TrainerOS",
+        description:
+          "Premium coaching platform for trainers and athletes. Phase 1: typed data architecture and a dual-role authorization portal.",
+      },
     },
   },
   contact: {
@@ -328,6 +334,12 @@ const pl: Dictionary = {
         description:
           "Webowy interfejs dla autorskiego asystenta AI w Pythonie, z przetwarzaniem mowy w czasie rzeczywistym i autonomicznym wywoływaniem funkcji.",
       },
+      traineros: {
+        category: "SaaS B2B · Etap 1",
+        title: "TrainerOS",
+        description:
+          "Platforma coachingowa premium dla trenerów i podopiecznych. Etap 1: typowana architektura danych i portal logowania dla dwóch ról.",
+      },
     },
   },
   contact: {
@@ -514,6 +526,12 @@ const de: Dictionary = {
         title: "AI Voice Terminal (Peter)",
         description:
           "Weboberfläche für einen individuellen Python-KI-Assistenten mit Sprachverarbeitung in Echtzeit und autonomem Function Calling.",
+      },
+      traineros: {
+        category: "B2B-SaaS · Phase 1",
+        title: "TrainerOS",
+        description:
+          "Premium-Coaching-Plattform für Trainer und Athleten. Phase 1: typisierte Datenarchitektur und ein Login-Portal für zwei Rollen.",
       },
     },
   },
