@@ -47,8 +47,8 @@ import {
 
 /* ---------------------------------- Data ---------------------------------- */
 
-// Placeholder — replace with your real address.
-const CONTACT_EMAIL = "hello@example.com";
+// Address shown in the "Prefer email?" card and copied by the Copy Email button.
+const CONTACT_EMAIL = "dominikit32123@gmail.com";
 
 // Labels and hints live in /translations.ts under contact.form.services / timelines.
 const SERVICE_ICONS: Record<ServiceId, LucideIcon> = {
