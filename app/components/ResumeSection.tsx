@@ -36,10 +36,6 @@ import BackToTop from "./BackToTop";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Dictionary } from "@/translations";
 
-/* ---------------------------------- Data ---------------------------------- */
-// Text lives in /translations.ts; these arrays only hold what doesn't change
-// with the language (icons, styling, bar widths). Order matches the dictionary.
-
 const COMPANY = "VictoriaCamp-IT";
 
 const EDUCATION_META: { icon: LucideIcon; current?: boolean }[] = [
@@ -81,8 +77,6 @@ const TEAMWORK_ICONS = [Handshake, Users];
 
 const HOBBY_ICONS = [Dumbbell, Guitar, Goal, Gamepad2];
 
-/* ------------------------------- Animations ------------------------------- */
-
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const fadeUp: Variants = {
@@ -96,8 +90,6 @@ const stagger: Variants = {
 };
 
 const VIEWPORT = { once: true, amount: 0.2 } as const;
-
-/* ---------------------------- Building blocks ----------------------------- */
 
 function GlassCard({
   children,
@@ -115,12 +107,10 @@ function GlassCard({
         className,
       )}
     >
-      {/* Glowing top edge */}
       <span
         aria-hidden
         className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-100"
       />
-      {/* Hover glow */}
       <span
         aria-hidden
         className="pointer-events-none absolute -top-24 left-1/2 h-48 w-2/3 -translate-x-1/2 rounded-full bg-cyan-500/10 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
@@ -162,8 +152,6 @@ function Tag({ children }: { children: ReactNode }) {
   );
 }
 
-/* --------------------------------- Section -------------------------------- */
-
 export default function ResumeSection() {
   const reduced = useReducedMotion() ?? false;
   const initial = reduced ? "show" : "hidden";
@@ -175,7 +163,6 @@ export default function ResumeSection() {
       id="about"
       className="relative isolate overflow-hidden px-4 py-24 sm:px-6 sm:py-32"
     >
-      {/* Ambient glow + faint grid continuing the hero's blueprint */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 opacity-40"
@@ -195,7 +182,6 @@ export default function ResumeSection() {
       />
 
       <div className="mx-auto max-w-6xl">
-        {/* Section header */}
         <motion.header
           variants={stagger}
           initial={initial}
@@ -228,7 +214,6 @@ export default function ResumeSection() {
           viewport={{ once: true, amount: 0.05 }}
           className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6"
         >
-          {/* 1. About */}
           <GlassCard className="lg:col-span-12">
             <div className="flex flex-col gap-6 md:flex-row md:items-start md:gap-10">
               <div className="md:w-56 md:shrink-0">
@@ -240,7 +225,6 @@ export default function ResumeSection() {
             </div>
           </GlassCard>
 
-          {/* 2. Experience */}
           <GlassCard className="lg:col-span-7">
             <CardHeading icon={Briefcase} label="02" title={r.cards.experience} />
             <ol className="relative space-y-8 border-l border-white/10 pl-6">
@@ -277,7 +261,6 @@ export default function ResumeSection() {
             </ol>
           </GlassCard>
 
-          {/* 3. Education */}
           <GlassCard className="lg:col-span-5">
             <CardHeading
               icon={GraduationCap}
@@ -338,7 +321,6 @@ export default function ResumeSection() {
             </ol>
           </GlassCard>
 
-          {/* 4. Tech stack */}
           <GlassCard className="lg:col-span-12">
             <CardHeading icon={Code2} label="04" title={r.cards.stack} />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -384,7 +366,6 @@ export default function ResumeSection() {
             </div>
           </GlassCard>
 
-          {/* 5. Soft skills & languages */}
           <GlassCard className="lg:col-span-6">
             <CardHeading
               icon={Languages}
@@ -440,7 +421,6 @@ export default function ResumeSection() {
             </div>
           </GlassCard>
 
-          {/* 6. After hours */}
           <GlassCard className="lg:col-span-6">
             <CardHeading icon={Gamepad2} label="06" title={r.cards.hobbies} />
             <div className="grid grid-cols-2 gap-3">

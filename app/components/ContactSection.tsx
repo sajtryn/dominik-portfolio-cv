@@ -45,12 +45,8 @@ import {
   type TimelineId,
 } from "@/translations";
 
-/* ---------------------------------- Data ---------------------------------- */
-
-// Address shown in the "Prefer email?" card and copied by the Copy Email button.
 const CONTACT_EMAIL = "dominikit32123@gmail.com";
 
-// Labels and hints live in /translations.ts under contact.form.services / timelines.
 const SERVICE_ICONS: Record<ServiceId, LucideIcon> = {
   web: Globe,
   automation: Cog,
@@ -94,8 +90,6 @@ const stepVariants: Variants = {
   }),
 };
 
-/* ------------------------------ Shared pieces ----------------------------- */
-
 const glassCard =
   "relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]";
 
@@ -108,7 +102,6 @@ function TopEdgeGlow() {
   );
 }
 
-/** Wraps children in a spring that drifts toward the cursor. */
 function Magnetic({
   children,
   strength = 0.15,
@@ -147,8 +140,6 @@ function Magnetic({
   );
 }
 
-/* ------------------------------- Left column ------------------------------ */
-
 const BLIPS = [
   { top: "22%", left: "64%", delay: 0.4 },
   { top: "68%", left: "74%", delay: 1.6 },
@@ -162,7 +153,6 @@ function Radar({ reduced }: { reduced: boolean }) {
       aria-hidden
       className="relative mx-auto aspect-square w-full max-w-[280px]"
     >
-      {/* Rings */}
       {[100, 72, 44].map((size) => (
         <span
           key={size}
@@ -170,11 +160,9 @@ function Radar({ reduced }: { reduced: boolean }) {
           style={{ width: `${size}%`, height: `${size}%` }}
         />
       ))}
-      {/* Crosshair */}
       <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-cyan-400/15 to-transparent" />
       <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-gradient-to-r from-transparent via-cyan-400/15 to-transparent" />
 
-      {/* Rotating sweep */}
       <motion.span
         className="absolute inset-0 rounded-full"
         style={{
@@ -188,7 +176,6 @@ function Radar({ reduced }: { reduced: boolean }) {
         transition={{ duration: 4, ease: "linear", repeat: Infinity }}
       />
 
-      {/* Outgoing pings */}
       {!reduced &&
         [0, 1, 2].map((i) => (
           <motion.span
@@ -205,7 +192,6 @@ function Radar({ reduced }: { reduced: boolean }) {
           />
         ))}
 
-      {/* Remote "clients" lighting up */}
       {BLIPS.map((b) => (
         <motion.span
           key={`${b.top}-${b.left}`}
@@ -222,7 +208,6 @@ function Radar({ reduced }: { reduced: boolean }) {
         />
       ))}
 
-      {/* Home base */}
       <span className="absolute left-1/2 top-1/2 grid size-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-cyan-300/50 bg-[#05060a] shadow-[0_0_30px_-4px_rgba(34,211,238,0.7)]">
         <span className="font-mono text-xs font-semibold tracking-wider text-cyan-200">
           PL
@@ -350,8 +335,6 @@ function RemoteCard({ reduced }: { reduced: boolean }) {
     </motion.div>
   );
 }
-
-/* ------------------------------ Right column ------------------------------ */
 
 function OptionTile({
   icon: Icon,
@@ -488,7 +471,6 @@ function ProjectConfigurator() {
     setStep(next);
   };
 
-  // Select a tile, let the glow register for a beat, then move on.
   const pick = <T,>(setter: (v: T) => void, value: T, next: number) => {
     setter(value);
     if (advanceTimer.current) clearTimeout(advanceTimer.current);
@@ -666,7 +648,6 @@ function ProjectConfigurator() {
                       {f.detailsTitle}
                     </h4>
 
-                    {/* Summary */}
                     <div className="flex flex-wrap gap-2">
                       {[
                         {
@@ -812,8 +793,6 @@ function BackButton({
     </button>
   );
 }
-
-/* --------------------------------- Section -------------------------------- */
 
 export default function ContactSection() {
   const reduced = useReducedMotion() ?? false;

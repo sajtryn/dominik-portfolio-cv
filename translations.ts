@@ -1,11 +1,6 @@
-/**
- * All UI copy for the single-page portfolio, in EN / PL / DE.
- *
- * `en` defines the shape; `pl` and `de` are typed against it, so TypeScript
- * flags any missing or extra key. Headline-style strings are split into
- * `titleStart` / `titleAccent` / `titleEnd` so the gradient word can sit
- * anywhere in the sentence for each language.
- */
+// `en` defines the shape; `pl` and `de` are typed against it. Headlines are
+// split into titleStart / titleAccent / titleEnd so the gradient word can sit
+// anywhere in the sentence.
 
 export const LANGUAGES = ["en", "pl", "de"] as const;
 export type Language = (typeof LANGUAGES)[number];

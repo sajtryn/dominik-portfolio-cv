@@ -27,8 +27,6 @@ import ContactSection from "./components/ContactSection";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import { useLanguage } from "@/context/LanguageContext";
 
-/* ---------------------------------- Data ---------------------------------- */
-
 type TechBadge = {
   label: string;
   icon: LucideIcon;
@@ -83,8 +81,6 @@ const TECH_BADGES: TechBadge[] = [
   },
 ];
 
-/* ------------------------------- Animations ------------------------------- */
-
 const container: Variants = {
   hidden: {},
   show: {
@@ -102,12 +98,9 @@ const item: Variants = {
   },
 };
 
-/* ------------------------------- Components ------------------------------- */
-
 function BlueprintGrid({ reduced }: { reduced: boolean }) {
   return (
     <>
-      {/* Major + minor grid lines, drifting diagonally */}
       <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-60"
@@ -136,7 +129,6 @@ function BlueprintGrid({ reduced }: { reduced: boolean }) {
         }
         transition={{ duration: 18, ease: "linear", repeat: Infinity }}
       />
-      {/* Horizontal scan line */}
       {!reduced && (
         <motion.div
           aria-hidden
@@ -225,17 +217,14 @@ function MagneticButton({
       whileTap={{ scale: 0.97 }}
       className="group relative inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-sm font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#05060a]"
     >
-      {/* Glow halo */}
       <span
         aria-hidden
         className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-600 opacity-50 blur-lg transition-opacity duration-300 group-hover:opacity-90"
       />
-      {/* Face */}
       <span
         aria-hidden
         className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600"
       />
-      {/* Sheen */}
       <span
         aria-hidden
         className="absolute inset-0 overflow-hidden rounded-xl"
@@ -249,8 +238,6 @@ function MagneticButton({
     </motion.a>
   );
 }
-
-/* ---------------------------------- Page ---------------------------------- */
 
 export default function Home() {
   const reduced = useReducedMotion() ?? false;
@@ -277,7 +264,6 @@ export default function Home() {
         onMouseMove={handleMouseMove}
         className="relative isolate flex min-h-svh items-center justify-center overflow-hidden px-4 py-24 sm:px-6"
       >
-        {/* Ambient color washes */}
         <div
           aria-hidden
           className="pointer-events-none absolute -top-40 left-1/2 -z-10 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-gradient-to-r from-cyan-500/20 via-sky-500/10 to-purple-600/20 blur-3xl"
@@ -289,7 +275,6 @@ export default function Home() {
 
         <BlueprintGrid reduced={reduced} />
 
-        {/* Mouse-tracking spotlight */}
         <motion.div
           aria-hidden
           className="pointer-events-none absolute inset-0 z-0"
@@ -305,7 +290,6 @@ export default function Home() {
           />
         ))}
 
-        {/* Center content */}
         <motion.div
           variants={container}
           initial="hidden"
@@ -369,7 +353,6 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
-        {/* Bottom fade into page */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-b from-transparent to-[#05060a]"

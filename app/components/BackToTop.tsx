@@ -5,7 +5,6 @@ import { ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 
-/** Small "Back to top" pill placed at the end of a section. */
 export default function BackToTop({ className }: { className?: string }) {
   const { t } = useLanguage();
   const scrollToTop = () => {

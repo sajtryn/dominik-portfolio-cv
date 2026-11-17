@@ -24,9 +24,6 @@ import { useLanguage } from "@/context/LanguageContext";
 import type { ProjectId } from "@/translations";
 import BackToTop from "./BackToTop";
 
-/* ---------------------------------- Data ---------------------------------- */
-// Text lives in /translations.ts under `projects.items.<id>`.
-
 type ProjectMeta = {
   id: ProjectId;
   icon: LucideIcon;
@@ -37,7 +34,6 @@ type ProjectMeta = {
    * as "coming soon" and isn't clickable.
    */
   href: string | null;
-  /** Accent used for the mockup glow and spotlight. */
   accent: { rgb: string; text: string; from: string };
 };
 
@@ -72,9 +68,6 @@ const PROJECTS: ProjectMeta[] = [
   },
 ];
 
-/* ------------------------------- Animations ------------------------------- */
-
-/** Maximum card rotation in degrees at the card's edges. */
 const MAX_TILT = 12;
 const TILT_SPRING = { stiffness: 180, damping: 18, mass: 0.6 };
 
@@ -90,7 +83,6 @@ const headerStagger: Variants = {
   show: { transition: { staggerChildren: 0.1 } },
 };
 
-// Cards wait for the header, then pop in one by one with a soft spring.
 const cardsStagger: Variants = {
   hidden: {},
   show: { transition: { delayChildren: 0.25, staggerChildren: 0.18 } },
@@ -106,8 +98,6 @@ const cardPop: Variants = {
   },
 };
 
-/* ------------------------------- Components ------------------------------- */
-
 function Mockup({ project }: { project: ProjectMeta }) {
   const Icon = project.icon;
   return (
@@ -115,7 +105,6 @@ function Mockup({ project }: { project: ProjectMeta }) {
       aria-hidden
       className="relative aspect-[16/9] overflow-hidden rounded-xl border border-white/[0.07] bg-gradient-to-br from-slate-900 via-[#070912] to-black"
     >
-      {/* Blueprint grid */}
       <div
         className="absolute inset-0 opacity-50"
         style={{
@@ -127,7 +116,6 @@ function Mockup({ project }: { project: ProjectMeta }) {
             "radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%)",
         }}
       />
-      {/* Accent wash */}
       <div
         className={cn(
           "absolute -bottom-1/2 left-1/2 h-full w-3/4 -translate-x-1/2 rounded-full bg-gradient-to-t to-transparent blur-3xl transition-opacity duration-500 group-hover:opacity-100",
@@ -136,7 +124,6 @@ function Mockup({ project }: { project: ProjectMeta }) {
         )}
       />
 
-      {/* Faux window chrome */}
       <div className="absolute inset-x-0 top-0 flex items-center gap-1.5 border-b border-white/[0.06] bg-black/30 px-3 py-2">
         <span className="size-2 rounded-full bg-rose-400/60" />
         <span className="size-2 rounded-full bg-amber-300/60" />
@@ -144,7 +131,6 @@ function Mockup({ project }: { project: ProjectMeta }) {
         <span className="ml-3 h-1.5 w-24 rounded-full bg-white/10" />
       </div>
 
-      {/* Faux UI skeleton */}
       <div className="absolute bottom-4 left-4 hidden w-1/3 space-y-2 sm:block">
         <span className="block h-1.5 w-full rounded-full bg-white/[0.07]" />
         <span className="block h-1.5 w-2/3 rounded-full bg-white/[0.07]" />
@@ -160,7 +146,6 @@ function Mockup({ project }: { project: ProjectMeta }) {
         ))}
       </div>
 
-      {/* Centered icon */}
       <div className="absolute inset-0 grid place-items-center">
         <span
           className={cn(
@@ -189,16 +174,12 @@ function ProjectCard({
   const p = t.projects;
   const copy = p.items[project.id];
 
-  // Cursor position inside the card in pixels — drives the glare, the
-  // accent spotlight and the border glow.
   const mx = useMotionValue(-400);
   const my = useMotionValue(-400);
   const spotlight = useMotionTemplate`radial-gradient(420px circle at ${mx}px ${my}px, rgba(${project.accent.rgb},0.12), transparent 60%)`;
   const glare = useMotionTemplate`radial-gradient(260px circle at ${mx}px ${my}px, rgba(255,255,255,0.16), rgba(255,255,255,0.04) 40%, transparent 70%)`;
   const borderGlow = useMotionTemplate`radial-gradient(320px circle at ${mx}px ${my}px, rgba(${project.accent.rgb},0.85), transparent 55%)`;
 
-  // Cursor position normalised to -0.5…0.5 from the card's centre, mapped to
-  // rotation and smoothed with a spring so the card settles back softly.
   const px = useMotionValue(0);
   const py = useMotionValue(0);
   const rotateX = useSpring(
@@ -228,13 +209,10 @@ function ProjectCard({
     py.set(0);
   };
 
-  // "#" or null means no demo yet: the card isn't clickable.
   const href = project.href && project.href !== "#" ? project.href : null;
   const external = href !== null && !href.startsWith("/");
 
   return (
-    // The wrapper handles the entrance pop; the card inside handles the tilt
-    // (transformPerspective gives the rotation real depth).
     <motion.div variants={cardPop} className="h-full">
       <motion.article
         whileHover={reduced ? undefined : { y: -6, scale: 1.02 }}
@@ -244,7 +222,6 @@ function ProjectCard({
         style={{ rotateX, rotateY, transformPerspective: 1100 }}
         className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] backdrop-blur-xl transition-shadow duration-500 will-change-transform hover:shadow-[0_30px_60px_-30px_rgba(0,0,0,0.9),inset_0_1px_0_0_rgba(255,255,255,0.08)] sm:p-5"
       >
-        {/* Border glow that follows the cursor (masked to a 1px ring) */}
         <motion.span
           aria-hidden
           className="pointer-events-none absolute inset-0 rounded-2xl p-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -256,7 +233,6 @@ function ProjectCard({
             maskComposite: "exclude",
           }}
         />
-        {/* Inner accent spotlight */}
         <motion.span
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -313,7 +289,6 @@ function ProjectCard({
                 />
               </span>
             ) : (
-              // No demo URL yet: same look, but not clickable.
               <span
                 aria-disabled="true"
                 title={p.comingSoon}
@@ -338,7 +313,6 @@ function ProjectCard({
           />
         )}
 
-        {/* Glare: a soft white reflection on top of everything, following the cursor */}
         <motion.span
           aria-hidden
           className="pointer-events-none absolute inset-0 z-10 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -348,8 +322,6 @@ function ProjectCard({
     </motion.div>
   );
 }
-
-/* --------------------------------- Section -------------------------------- */
 
 export default function ProjectsSection() {
   const reduced = useReducedMotion() ?? false;

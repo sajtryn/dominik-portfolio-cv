@@ -50,21 +50,12 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-/* ============================================================================
- * Data architecture
- * ----------------------------------------------------------------------------
- * Core domain types for TrainerOS. Still in this file while the app is a
- * single page; move to `types/traineros.ts` when the athlete dashboard
- * (Phase 3) needs to share them.
- * ========================================================================== */
-
 type Role = "trainer" | "client";
 
 interface User {
   id: string;
   role: Role;
   name: string;
-  /** URL or path to the avatar image. */
   avatar: string;
 }
 
@@ -73,10 +64,8 @@ interface ClientStats {
   weight: number;
 }
 
-/** How a session felt, as reported by the athlete. */
 type Readiness = "god-mode" | "solid" | "drained";
 
-/** One completed session as the coach sees it. */
 interface SessionReport {
   day: string;
   title: string;
@@ -96,9 +85,7 @@ interface WorkoutPlan {
   id: string;
   /** References `User.id` of a user with role "client". */
   clientId: User["id"];
-  /** Session name, e.g. "Heavy Push". */
   title: string;
-  /** Day in the current microcycle, e.g. "Mon". */
   day: string;
   exercises: Exercise[];
 }
@@ -110,12 +97,10 @@ interface LiftRecord {
   previous1RM: number;
 }
 
-/** Everything the coach dashboard knows about one athlete. */
 interface ClientRecord {
   user: User;
   stats: ClientStats;
   goal: string;
-  /** This week's sessions, in order. */
   microcycle: WorkoutPlan[];
   performance: LiftRecord[];
   sessionsDone: number;
@@ -127,8 +112,6 @@ interface ClientRecord {
   recentSessions: SessionReport[];
   status: "on-track" | "attention";
 }
-
-/* ---------------------------- Readiness scale ----------------------------- */
 
 const READINESS: {
   id: Readiness;
@@ -162,10 +145,6 @@ const READINESS: {
       "border-red-500 bg-red-500/15 text-red-200 shadow-[0_0_0_1px_#ef4444,0_0_24px_-4px_#ef4444]",
   },
 ];
-
-/* ------------------------------- Mock data -------------------------------- */
-// Seed data for the dashboards, typed against the interfaces above so any
-// shape mistake is a compile error. Compound lifts are flagged by name below.
 
 const COACH: User = {
   id: "u-coach-01",
@@ -391,15 +370,12 @@ const CLIENTS: ClientRecord[] = [
 const COMPOUND_LIFTS =
   /squat|deadlift|bench|press|row|pull-up|chin-up|clean|dip|thrust/i;
 
-/* ============================== Role portal =============================== */
-
 type RoleCard = {
   role: Role;
   index: string;
   label: string;
   title: string;
   description: string;
-  /** Hero icon — the focal point of the card. */
   icon: LucideIcon;
   accentIcon: LucideIcon;
   features: { icon: LucideIcon; text: string }[];
@@ -409,13 +385,9 @@ type RoleCard = {
    */
   tone: {
     text: string;
-    /** Steady glow, used on the init screen. */
     glow: string;
-    /** Card border + neon-sign glow on hover / keyboard focus. */
     neon: string;
-    /** Hero icon glow on card hover. */
     iconNeon: string;
-    /** Title text glow on card hover. */
     titleNeon: string;
     chip: string;
     gradient: string;
@@ -486,9 +458,6 @@ const ROLE_CARDS: RoleCard[] = [
   },
 ];
 
-
-/* =============================== Animations =============================== */
-
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const portalStagger: Variants = {
@@ -512,13 +481,9 @@ const cardIn: Variants = {
   },
 };
 
-/* ============================== Shared chrome ============================= */
-
-/** Barbell-knurling texture: a fine diamond cross-hatch over a dot grid. */
 function KnurlBackground() {
   return (
     <>
-      {/* Diamond knurl — two very faint diagonal line sets */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 opacity-60"
@@ -529,7 +494,6 @@ function KnurlBackground() {
           ].join(","),
         }}
       />
-      {/* Raised "teeth" of the knurl — a tight dot grid */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 opacity-70"
@@ -539,7 +503,6 @@ function KnurlBackground() {
           backgroundSize: "9px 9px",
         }}
       />
-      {/* Heavy vignette keeps the pattern from competing with the cards */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
@@ -548,7 +511,6 @@ function KnurlBackground() {
             "radial-gradient(ellipse 75% 60% at 50% 45%, rgba(10,10,10,0.35) 20%, rgba(0,0,0,0.92) 100%)",
         }}
       />
-      {/* Gym-floor light spill */}
       <div
         aria-hidden
         className="pointer-events-none absolute -left-40 top-1/3 -z-10 h-[520px] w-[520px] rounded-full bg-lime-400/[0.08] blur-3xl"
@@ -560,8 +522,6 @@ function KnurlBackground() {
     </>
   );
 }
-
-/* ================================ Screens ================================= */
 
 function LoginPortal({ onSelect }: { onSelect: (role: Role) => void }) {
   const reduced = useReducedMotion() ?? false;
@@ -637,7 +597,6 @@ function LoginPortal({ onSelect }: { onSelect: (role: Role) => void }) {
                   card.tone.neon,
                 )}
               >
-                {/* Neon tube along the top edge — lights up on hover */}
                 <span
                   aria-hidden
                   className={cn(
@@ -645,7 +604,6 @@ function LoginPortal({ onSelect }: { onSelect: (role: Role) => void }) {
                     card.tone.tube,
                   )}
                 />
-                {/* Accent light spill */}
                 <span
                   aria-hidden
                   className={cn(
@@ -653,7 +611,6 @@ function LoginPortal({ onSelect }: { onSelect: (role: Role) => void }) {
                     card.tone.gradient,
                   )}
                 />
-                {/* Oversized watermark of the hero icon */}
                 <Icon
                   aria-hidden
                   strokeWidth={1.25}
@@ -661,7 +618,6 @@ function LoginPortal({ onSelect }: { onSelect: (role: Role) => void }) {
                 />
 
                 <div className="relative flex items-start justify-between gap-4">
-                  {/* Hero icon — the focal point */}
                   <span
                     className={cn(
                       "grid size-24 shrink-0 place-items-center rounded-3xl border-[3px] border-white/10 bg-neutral-950 transition-colors duration-200 sm:size-28",
@@ -739,8 +695,6 @@ function LoginPortal({ onSelect }: { onSelect: (role: Role) => void }) {
   );
 }
 
-/* =========================== Trainer dashboard ============================ */
-
 const pct = (value: number, target: number) =>
   target > 0 ? Math.min(100, Math.round((value / target) * 100)) : 0;
 
@@ -795,7 +749,6 @@ function PanelTitle({
   );
 }
 
-/** Small circular gauge for compliance. */
 function Ring({ value, size = 112 }: { value: number; size?: number }) {
   const stroke = 9;
   const r = (size - stroke) / 2;
@@ -821,7 +774,6 @@ function Ring({ value, size = 112 }: { value: number; size?: number }) {
   );
 }
 
-/** Minimal bodyweight sparkline (SVG polyline). */
 function Sparkline({ values }: { values: number[] }) {
   const w = 160;
   const h = 40;
@@ -862,7 +814,6 @@ function RosterCard({
             : "border-white/10 bg-black/40 hover:border-white/25 hover:bg-white/[0.03]",
         )}
       >
-        {/* Sliding neon indicator — glides between cards via shared layout */}
         {selected && (
           <motion.span
             layoutId="roster-indicator"
@@ -913,7 +864,6 @@ const READINESS_TONE: Record<Readiness, string> = {
 
 const readinessOf = (id: Readiness) => READINESS.find((r) => r.id === id)!;
 
-/** What athletes reported after recent sessions: feel + notes. */
 function SessionTelemetry({ client }: { client: ClientRecord }) {
   const sessions = client.recentSessions;
   const counts = READINESS.map((r) => ({
@@ -935,7 +885,6 @@ function SessionTelemetry({ client }: { client: ClientRecord }) {
         }
       />
 
-      {/* Readiness tally */}
       <div className="grid grid-cols-3 gap-2">
         {counts.map((c) => (
           <div
@@ -963,7 +912,6 @@ function SessionTelemetry({ client }: { client: ClientRecord }) {
         </p>
       )}
 
-      {/* Session feed */}
       <ul className="mt-4 space-y-2.5">
         {sessions.map((s) => {
           const r = readinessOf(s.readiness);
@@ -1113,7 +1061,6 @@ function MicrocyclePlanner({ client }: { client: ClientRecord }) {
         </motion.p>
       )}
 
-      {/* Session tabs */}
       <div className="mb-5 flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label="Sessions this week">
         {client.microcycle.map((p, i) => {
           const active = p.id === session.id;
@@ -1144,7 +1091,6 @@ function MicrocyclePlanner({ client }: { client: ClientRecord }) {
         })}
       </div>
 
-      {/* Session detail */}
       <motion.div
         key={session.id}
         initial={{ opacity: 0, y: 8 }}
@@ -1201,8 +1147,6 @@ function MicrocyclePlanner({ client }: { client: ClientRecord }) {
 }
 
 function TrainerDashboard({ onDisconnect }: { onDisconnect: () => void }) {
-  // The roster lives in state so later phases (editing protocols, logging
-  // check-ins) can update it in place.
   const [clients] = useState<ClientRecord[]>(CLIENTS);
   const [selectedId, setSelectedId] = useState(CLIENTS[0].user.id);
   const [query, setQuery] = useState("");
@@ -1229,7 +1173,6 @@ function TrainerDashboard({ onDisconnect }: { onDisconnect: () => void }) {
       transition={{ duration: 0.5, ease: EASE }}
       className="min-h-svh"
     >
-      {/* ------------------------------ Top nav ------------------------------ */}
       <nav className="sticky top-0 z-30 border-b border-white/10 bg-neutral-950/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-3">
@@ -1260,7 +1203,6 @@ function TrainerDashboard({ onDisconnect }: { onDisconnect: () => void }) {
       </nav>
 
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-        {/* Squad summary */}
         <div className="mb-6 grid grid-cols-3 gap-3">
           {[
             { icon: Users, label: "Active athletes", value: String(clients.length), tone: "text-white" },
@@ -1278,7 +1220,6 @@ function TrainerDashboard({ onDisconnect }: { onDisconnect: () => void }) {
         </div>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[340px_minmax(0,1fr)]">
-          {/* --------------------------- Client roster --------------------------- */}
           <GlassPanel className="flex flex-col lg:sticky lg:top-24 lg:max-h-[calc(100svh-8rem)] lg:self-start">
             <PanelTitle
               icon={Users}
@@ -1313,7 +1254,6 @@ function TrainerDashboard({ onDisconnect }: { onDisconnect: () => void }) {
             </ul>
           </GlassPanel>
 
-          {/* ---------------------- Telemetry & planning ------------------------ */}
           <motion.div
             key={selected.user.id}
             initial={{ opacity: 0, x: 12 }}
@@ -1321,7 +1261,6 @@ function TrainerDashboard({ onDisconnect }: { onDisconnect: () => void }) {
             transition={{ duration: 0.35, ease: EASE }}
             className="min-w-0 space-y-6"
           >
-            {/* Athlete header */}
             <GlassPanel>
               <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex min-w-0 items-center gap-4">
@@ -1391,8 +1330,6 @@ function TrainerDashboard({ onDisconnect }: { onDisconnect: () => void }) {
   );
 }
 
-/* =========================== Athlete dashboard ============================ */
-
 /** One set as the athlete fills it in. Inputs stay strings until logged. */
 interface SetEntry {
   targetReps: number;
@@ -1407,7 +1344,6 @@ interface ExerciseEntry {
   sets: SetEntry[];
 }
 
-/** What gets sent to the coach when the session is logged. */
 interface SessionLog {
   athleteId: User["id"];
   planId: WorkoutPlan["id"];
@@ -1432,10 +1368,7 @@ const toEntries = (plan: WorkoutPlan): ExerciseEntry[] =>
     })),
   }));
 
-/**
- * Mock save. Swap the body for a real request (e.g. `fetch("/api/sessions",
- * { method: "POST", body: JSON.stringify(log) })`) and throw on failure.
- */
+// Mock save: replace with a real request and throw on failure.
 async function logSession(log: SessionLog): Promise<void> {
   void log;
   await new Promise((resolve) => setTimeout(resolve, 1400));
@@ -1523,16 +1456,11 @@ function SetRow({
   );
 }
 
-/* ------------------------------ Session history --------------------------- */
-
-/** A past session as stored for the athlete (read-only). */
 interface HistoricalSession {
-  /** How many days before today it happened. */
   daysAgo: number;
   title: string;
   readiness: Readiness;
   durationMin: number;
-  /** The athlete's note to the coach. */
   note: string;
   exercises: { name: string; sets: { weight: number; reps: number }[] }[];
 }
@@ -1579,13 +1507,10 @@ const ATHLETE_HISTORY: HistoricalSession[] = [
   },
 ];
 
-/* ------------------------------- Date helpers ----------------------------- */
-
 /** Local-date key, e.g. "2026-11-14" (not UTC, so "today" matches the user's clock). */
 const toKey = (d: Date) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
-/** The last 7 days, oldest first, ending with today. */
 function buildLastDays(): Date[] {
   const today = new Date();
   today.setHours(12, 0, 0, 0);
@@ -1598,8 +1523,6 @@ function buildLastDays(): Date[] {
 
 const longDate = (d: Date) =>
   d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
-
-/* ------------------------------ Calendar ribbon --------------------------- */
 
 function CalendarRibbon({
   days,
@@ -1687,8 +1610,6 @@ function CalendarRibbon({
     </section>
   );
 }
-
-/* ----------------------------- Read-only history -------------------------- */
 
 function HistoryView({ session, date }: { session: HistoricalSession; date: Date }) {
   const feel = READINESS.find((r) => r.id === session.readiness)!;
@@ -1875,7 +1796,6 @@ function AthleteDashboard({ onDisconnect }: { onDisconnect: () => void }) {
       transition={{ duration: 0.5, ease: EASE }}
       className="min-h-svh"
     >
-      {/* ------------------------------ Top nav ------------------------------ */}
       <nav className="sticky top-0 z-30 border-b border-white/10 bg-neutral-950/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-2xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
           <div className="flex min-w-0 items-center gap-2.5">
@@ -1896,7 +1816,6 @@ function AthleteDashboard({ onDisconnect }: { onDisconnect: () => void }) {
             Disconnect
           </button>
         </div>
-        {/* Session progress rail */}
         <div className="h-1 bg-white/5" aria-hidden>
           <motion.div
             className="h-full bg-lime-400 shadow-[0_0_10px_#a3e635]"
@@ -1924,7 +1843,6 @@ function AthleteDashboard({ onDisconnect }: { onDisconnect: () => void }) {
           </div>
         )}
 
-        {/* Day content crossfades: the old day fades out while the new one fades in. */}
         <div className="relative mt-6">
           <AnimatePresence mode="popLayout" initial={false}>
             <motion.div
@@ -1945,7 +1863,6 @@ function AthleteDashboard({ onDisconnect }: { onDisconnect: () => void }) {
           <SessionSummary log={savedLog} title={plan.title} onReset={reset} />
         ) : (
           <>
-            {/* ------------------------ Today's protocol ------------------------ */}
             <section className="relative overflow-hidden rounded-3xl border-[3px] border-red-500/70 bg-black/50 p-5 shadow-[0_0_0_1px_rgba(239,68,68,0.4),0_0_40px_-12px_#ef4444] backdrop-blur-md sm:p-7">
               <Dumbbell
                 aria-hidden
@@ -1978,7 +1895,6 @@ function AthleteDashboard({ onDisconnect }: { onDisconnect: () => void }) {
               </div>
             </section>
 
-            {/* ---------------------------- Exercises --------------------------- */}
             <div className="mt-6 space-y-5">
               {exercises.map((exercise, ei) => {
                 const complete = exercise.sets.every((s) => s.done);
@@ -2016,7 +1932,6 @@ function AthleteDashboard({ onDisconnect }: { onDisconnect: () => void }) {
                       </span>
                     </header>
 
-                    {/* Column labels */}
                     <div className="grid grid-cols-[2rem_3.25rem_minmax(0,1fr)_minmax(0,1fr)_3rem] gap-2 px-1 pb-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-neutral-500 sm:grid-cols-[2.5rem_4rem_minmax(0,1fr)_minmax(0,1fr)_3.5rem] sm:gap-3 sm:text-[10px]">
                       <span className="text-center">Set</span>
                       <span className="text-center">Target</span>
@@ -2040,7 +1955,6 @@ function AthleteDashboard({ onDisconnect }: { onDisconnect: () => void }) {
               })}
             </div>
 
-            {/* ------------------- Session telemetry & notes -------------------- */}
             <section className="mt-6 rounded-2xl border-2 border-white/10 bg-black/50 p-4 backdrop-blur-md sm:p-5">
               <h2 className="flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-300">
                 <Activity className="size-4 text-lime-400" aria-hidden />
@@ -2093,7 +2007,6 @@ function AthleteDashboard({ onDisconnect }: { onDisconnect: () => void }) {
               </label>
             </section>
 
-            {/* ------------------------------ Submit ----------------------------- */}
             <motion.button
               type="button"
               onClick={submit}
@@ -2206,8 +2119,6 @@ function SessionSummary({
     </motion.section>
   );
 }
-
-/* ================================== Page ================================== */
 
 export default function TrainerOsPage() {
   const [activeRole, setActiveRole] = useState<Role | null>(null);

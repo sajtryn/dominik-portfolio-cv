@@ -36,10 +36,6 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-/* ================================ Scenarios ============================== */
-// Each loop plays one of these. They're the only "data" on the page — swap
-// in real transcripts / tool calls from Peter's Python backend later.
-
 type Scenario = {
   transcript: string;
   stt: { engine: string; confidence: number };
@@ -116,7 +112,6 @@ const SCENARIOS: Scenario[] = [
   },
 ];
 
-/* ================================ Timeline =============================== */
 // One 12s loop. Everything on screen is derived from the elapsed time `t`.
 
 const CYCLE_MS = 12000;
@@ -155,8 +150,6 @@ const PHASE_STYLE: Record<
   speaking: { label: "Speaking", color: "text-emerald-300", rgb: "52,211,153", pulse: 1.0, icon: Volume2 },
 };
 
-/* ============================== Tokenization ============================= */
-
 /** Toy BPE-ish split: words, punctuation, long words cut into 4-char pieces. */
 function tokenize(text: string) {
   const parts = text.match(/[A-Za-z0-9']+|[^\sA-Za-z0-9']/g) ?? [];
@@ -182,8 +175,6 @@ const seeded = (i: number) => {
   const x = Math.sin(i * 12.9898 + 78.233) * 43758.5453;
   return x - Math.floor(x);
 };
-
-/* ============================ JSON highlighting ========================== */
 
 function JsonLine({ line, tone = "default" }: { line: string; tone?: "default" | "result" }) {
   const parts: ReactNode[] = [];
@@ -213,8 +204,6 @@ function JsonLine({ line, tone = "default" }: { line: string; tone?: "default" |
   return <>{parts}</>;
 }
 
-/* =============================== Animations ============================== */
-
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const gridStagger: Variants = {
@@ -227,8 +216,6 @@ const panelIn: Variants = {
   show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: EASE } },
 };
 
-/* ============================== Boot sequence ============================ */
-
 const BOOT_LINES = [
   "INITIALIZING PETER OS v3.2...",
   "LOADING NLP MODELS [whisper-large-v3 · gpt-4o-custom]...",
@@ -238,7 +225,6 @@ const BOOT_LINES = [
 const BOOT_MS = 2600;
 const BOOT_CHAR_MS = 13;
 const BOOT_LINE_PAUSE = 6; // characters' worth of pause between lines
-/** Character offset at which each boot line starts typing. */
 const BOOT_OFFSETS = BOOT_LINES.map((_, i) =>
   BOOT_LINES.slice(0, i).reduce((sum, l) => sum + l.length + BOOT_LINE_PAUSE, 0),
 );
@@ -281,7 +267,6 @@ function BootScreen({ onSkip }: { onSkip: () => void }) {
         pointerEvents: "none",
       }}
     >
-      {/* Scanlines */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.07]"
@@ -316,8 +301,6 @@ function BootScreen({ onSkip }: { onSkip: () => void }) {
     </motion.div>
   );
 }
-
-/* ============================ Building blocks ============================ */
 
 function Panel({
   children,
@@ -386,7 +369,6 @@ function PanelHeader({
   );
 }
 
-/** Small animated bar waveform; flat when inactive. */
 function Waveform({
   active,
   bars = 28,
@@ -425,7 +407,6 @@ function Waveform({
   );
 }
 
-/** The centrepiece: concentric rings + orb that pulse to the current phase. */
 function Core({ phase }: { phase: Phase }) {
   const reduced = useReducedMotion();
   const style = PHASE_STYLE[phase];
@@ -434,7 +415,6 @@ function Core({ phase }: { phase: Phase }) {
 
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[320px]">
-      {/* Expanding pulse rings */}
       {!reduced &&
         [0, 1, 2].map((i) => (
           <motion.span
@@ -453,7 +433,6 @@ function Core({ phase }: { phase: Phase }) {
           />
         ))}
 
-      {/* Rotating dashed rings */}
       <motion.svg
         aria-hidden
         viewBox="0 0 200 200"
@@ -475,7 +454,6 @@ function Core({ phase }: { phase: Phase }) {
         <circle cx="100" cy="100" r="72" fill="none" stroke="rgba(34,211,238,0.12)" strokeWidth="0.6" />
       </motion.svg>
 
-      {/* Breathing orb */}
       <motion.div
         aria-hidden
         className="absolute inset-[30%] rounded-full"
@@ -498,7 +476,6 @@ function Core({ phase }: { phase: Phase }) {
         }}
       />
 
-      {/* Label */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <PhaseIcon className={cn("size-7 drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]", style.color)} aria-hidden />
         <span className="mt-2 font-mono text-[11px] font-semibold uppercase tracking-[0.3em] text-white">
@@ -508,8 +485,6 @@ function Core({ phase }: { phase: Phase }) {
     </div>
   );
 }
-
-/* ================================== Page ================================= */
 
 type HistoryEntry = {
   id: number;
@@ -528,7 +503,6 @@ export default function AiTerminalPage() {
   const idxRef = useRef(0);
   const historyId = useRef(0);
 
-  // Boot screen: dismiss after ~2.6s, or immediately on click / key press.
   useEffect(() => {
     if (booted) return;
     const skip = () => setBooted(true);
@@ -540,7 +514,6 @@ export default function AiTerminalPage() {
     };
   }, [booted]);
 
-  // The 12-second interaction loop. A single clock drives every panel.
   useEffect(() => {
     if (!booted) return;
     let start = performance.now();
@@ -550,7 +523,6 @@ export default function AiTerminalPage() {
         setRun((r) => ({ ...r, t }));
         return;
       }
-      // Loop finished: log it, then move to the next scenario.
       const done = SCENARIOS[idxRef.current];
       historyId.current += 1;
       const entry: HistoryEntry = {
@@ -568,8 +540,6 @@ export default function AiTerminalPage() {
     }, TICK_MS);
     return () => clearInterval(id);
   }, [booted]);
-
-  /* ---------------------------- Derived state ----------------------------- */
 
   const { t, idx } = run;
   const scenario = SCENARIOS[idx];
@@ -608,7 +578,6 @@ export default function AiTerminalPage() {
       <AnimatePresence>{!booted && <BootScreen onSkip={() => setBooted(true)} />}</AnimatePresence>
 
       <main className="relative isolate min-h-svh flex-1 overflow-hidden bg-[#04050a] font-sans text-slate-100">
-        {/* Background */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10 opacity-40"
@@ -629,7 +598,6 @@ export default function AiTerminalPage() {
           transition={{ duration: 0.7, ease: EASE, delay: booted ? 0.15 : 0 }}
           className="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 sm:pt-8 lg:px-8"
         >
-          {/* ------------------------------ Header ----------------------------- */}
           <header className="mb-8 flex flex-col gap-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <Link
@@ -668,7 +636,6 @@ export default function AiTerminalPage() {
                 </h1>
               </div>
 
-              {/* Pipeline stepper */}
               <ol className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider" aria-label="Pipeline">
                 {pipeline.map((s, i) => {
                   const active = s.key === phase;
@@ -694,14 +661,12 @@ export default function AiTerminalPage() {
             </div>
           </header>
 
-          {/* ------------------------------- Grid ------------------------------ */}
           <motion.div
             variants={gridStagger}
             initial="hidden"
             animate={booted ? "show" : "hidden"}
             className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-12 lg:gap-5"
           >
-            {/* Panel 1 — Input stream */}
             <Panel className="flex flex-col lg:col-span-4">
               <PanelHeader
                 icon={Mic}
@@ -752,7 +717,6 @@ export default function AiTerminalPage() {
               </div>
             </Panel>
 
-            {/* The Core */}
             <Panel glow="purple" className="flex flex-col items-center justify-center md:col-span-2 md:row-start-1 lg:col-span-4 lg:col-start-5">
               <Core phase={phase} />
               <div className="mt-4 text-center">
@@ -771,7 +735,6 @@ export default function AiTerminalPage() {
               </div>
             </Panel>
 
-            {/* Panel 3 — Intent & function calling */}
             <Panel className="flex flex-col lg:col-span-4">
               <PanelHeader
                 icon={Code}
@@ -837,7 +800,6 @@ export default function AiTerminalPage() {
                 )}
               </div>
 
-              {/* Confidence meter */}
               <div className="mt-4">
                 <div className="mb-1.5 flex justify-between font-mono text-[10px] uppercase tracking-wider text-slate-500">
                   <span>Intent confidence</span>
@@ -856,7 +818,6 @@ export default function AiTerminalPage() {
               </div>
             </Panel>
 
-            {/* Panel 2 — NLP & tokenization */}
             <Panel glow="purple" className="md:col-span-2 lg:col-span-8">
               <PanelHeader
                 icon={Brain}
@@ -901,7 +862,6 @@ export default function AiTerminalPage() {
                 })}
               </motion.ul>
 
-              {/* Embedding vector visual */}
               <div className="mt-5">
                 <p className="mb-2 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-slate-500">
                   <Binary className="size-3" aria-hidden />
@@ -929,7 +889,6 @@ export default function AiTerminalPage() {
               </div>
             </Panel>
 
-            {/* Session history */}
             <Panel className="md:col-span-2 lg:col-span-4">
               <PanelHeader
                 icon={History}

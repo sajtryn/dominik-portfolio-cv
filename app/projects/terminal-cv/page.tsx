@@ -10,8 +10,6 @@ import {
 } from "react";
 import Link from "next/link";
 
-/* ================================ Config ================================= */
-
 const PROMPT_USER = "dominik@portfolio";
 const PROMPT = `${PROMPT_USER}:~$`;
 const CV_PATH = "/cv.pdf";
@@ -24,8 +22,6 @@ const BOOT_LINES = [
   "System ready. Type 'help' to start.",
 ];
 const BOOT_STEP_MS = 280;
-
-/* ================================ Types ================================== */
 
 type Lang = "en" | "pl" | "de";
 const LANGS: Lang[] = ["en", "pl", "de"];
@@ -40,10 +36,6 @@ interface HistoryEntry {
 type CommandName = "help" | "whoami" | "skills" | "lang" | "clear" | "download_cv";
 const COMMAND_NAMES: CommandName[] = ["help", "whoami", "skills", "lang", "clear", "download_cv"];
 const isCommand = (s: string): s is CommandName => (COMMAND_NAMES as string[]).includes(s);
-
-/* ============================== Translations ============================= */
-// Everything the terminal prints, per language. Boot lines stay English —
-// that's the "firmware".
 
 type Strings = {
   languageName: string;
@@ -212,11 +204,8 @@ const T: Record<Lang, Strings> = {
   },
 };
 
-/** Dot leaders that line labels up: "role ........", "hobbies .....". */
 const LEADER_WIDTH = 13;
 const leader = (label: string) => `${label} `.padEnd(LEADER_WIDTH, ".");
-
-/* ============================ Output blocks ============================== */
 
 const Dim = ({ children }: { children: ReactNode }) => (
   <span className="text-green-800">{children}</span>
@@ -330,7 +319,6 @@ function LangUsage({ lang, error }: { lang: Lang; error?: string }) {
   );
 }
 
-/** Starts a file download with a temporary `<a download>` element. */
 function triggerDownload() {
   const a = document.createElement("a");
   a.href = CV_PATH;
@@ -340,15 +328,12 @@ function triggerDownload() {
   a.remove();
 }
 
-/* ================================= Page ================================== */
-
 export default function TerminalCvPage() {
   const [bootLines, setBootLines] = useState(0);
   const booted = bootLines >= BOOT_LINES.length;
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [input, setInput] = useState("");
   const [lang, setLang] = useState<Lang>("en");
-  // Commands typed so far, newest last — for ↑/↓ recall.
   const [recall, setRecall] = useState<string[]>([]);
   const [recallIndex, setRecallIndex] = useState<number | null>(null);
 
@@ -358,7 +343,6 @@ export default function TerminalCvPage() {
   // commands run back to back before a re-render.
   const langRef = useRef<Lang>("en");
 
-  // Rapid boot sequence, one line at a time.
   useEffect(() => {
     const ids = BOOT_LINES.map((_, i) =>
       setTimeout(() => setBootLines(i + 1), BOOT_STEP_MS * (i + 1)),
@@ -366,7 +350,6 @@ export default function TerminalCvPage() {
     return () => ids.forEach(clearTimeout);
   }, []);
 
-  // Focus the prompt as soon as it appears.
   useEffect(() => {
     if (booted) inputRef.current?.focus({ preventScroll: true });
   }, [booted]);
@@ -397,7 +380,7 @@ export default function TerminalCvPage() {
 
     let output: ReactNode = null;
     if (!command) {
-      output = null; // empty Enter just prints a new prompt line
+      output = null;
     } else if (!isCommand(name)) {
       const t = T[current];
       output = (
@@ -437,7 +420,6 @@ export default function TerminalCvPage() {
     setHistory((h) => [...h, { id: nextId.current, command, output }]);
   }, []);
 
-  /** The [ lang ] chip cycles en → pl → de → en. */
   const cycleLang = () => {
     const next = LANGS[(LANGS.indexOf(langRef.current) + 1) % LANGS.length];
     execute(`lang ${next}`);
@@ -488,7 +470,6 @@ export default function TerminalCvPage() {
     inputRef.current?.focus({ preventScroll: true });
   };
 
-  /** Chip click: [ lang ] cycles languages, the rest run their command. */
   const runChip = (name: CommandName) => {
     if (name === "lang") cycleLang();
     else execute(name);
@@ -501,7 +482,6 @@ export default function TerminalCvPage() {
       lang={lang}
       className="min-h-screen flex-1 cursor-text bg-black px-4 pb-32 pt-4 font-mono text-[13px] leading-relaxed text-green-500 selection:bg-green-500/30 selection:text-lime-200 sm:px-8 sm:pt-6 sm:text-sm"
     >
-      {/* Minimal nav: reads like a shell path, so the illusion holds */}
       <nav className="mb-6 flex items-center justify-between gap-4 text-xs">
         <Link
           href="/"
@@ -516,7 +496,6 @@ export default function TerminalCvPage() {
       </nav>
 
       <div className="mx-auto max-w-4xl">
-        {/* Boot sequence */}
         <div aria-live="polite">
           {BOOT_LINES.slice(0, bootLines).map((line, i) => (
             <p key={line} className={i === BOOT_LINES.length - 1 ? "text-lime-300" : undefined}>
@@ -529,7 +508,6 @@ export default function TerminalCvPage() {
 
         {booted && (
           <>
-            {/* History */}
             <div className="mt-4 space-y-3" role="log" aria-live="polite" aria-label="Terminal output">
               {history.map((entry) => (
                 <div key={entry.id}>
@@ -543,7 +521,6 @@ export default function TerminalCvPage() {
               ))}
             </div>
 
-            {/* Active prompt */}
             <label className="mt-3 flex items-center gap-2">
               <span className="shrink-0">
                 <span className="text-lime-400">{PROMPT_USER}</span>
@@ -571,7 +548,6 @@ export default function TerminalCvPage() {
         )}
       </div>
 
-      {/* HR helper chips: one click runs a command, no typing needed */}
       <div
         onClick={(e) => e.stopPropagation()}
         className="fixed inset-x-0 bottom-0 z-10 border-t border-green-500/15 bg-black/70 backdrop-blur-md"

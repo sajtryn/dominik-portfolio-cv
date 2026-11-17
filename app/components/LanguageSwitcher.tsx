@@ -6,7 +6,6 @@ import { useLanguage } from "@/context/LanguageContext";
 import { LANGUAGES, translations } from "@/translations";
 import { cn } from "@/lib/utils";
 
-/** Fixed glass pill in the top-right corner: EN / PL / DE. */
 export default function LanguageSwitcher() {
   const { language, setLanguage, t } = useLanguage();
 

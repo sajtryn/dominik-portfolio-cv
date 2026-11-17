@@ -55,8 +55,6 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-/* =============================== Constants =============================== */
-
 const HISTORY_LENGTH = 28;
 const MAX_LOG_LINES = 100;
 
@@ -67,12 +65,10 @@ const SIM_SPEED = 60;
 const V_MIN = 12.2;
 const V_MAX = 13.8;
 
-/** Always-on consumers (fridge, router, gateway) — drifts on its own. */
 const BASE_LOAD_MIN = 32;
 const BASE_LOAD_MAX = 52;
 
 const SETPOINT_C = 21.5;
-/** Scale for the power breakdown bar: max base load + every device at full. */
 const DRAW_SCALE_W = 240;
 
 type DeviceId = "lights" | "pump" | "heater";
@@ -84,7 +80,6 @@ const DEVICES: {
   watts: number;
   icon: LucideIcon;
   topic: string;
-  /** Tailwind classes for the "on" state of this device's switch + bar. */
   tone: { track: string; glow: string; bar: string; text: string };
 }[] = [
   {
@@ -139,11 +134,6 @@ const DEVICE_WATTS = Object.fromEntries(DEVICES.map((d) => [d.id, d.watts])) as 
 type Devices = Record<DeviceId, boolean>;
 const INITIAL_DEVICES: Devices = { lights: false, pump: false, heater: false };
 
-/* ============================== Simulation =============================== */
-// Each sensor family reports on its own schedule, like independent MQTT
-// topics. To go live, replace the timers below with handlers for real
-// messages — the UI only reads `data`, `devices`, `auto` and `fuzzy`.
-
 type Telemetry = {
   solarW: number;
   /** State of charge, 0–100. Integrated from net power every second. */
@@ -181,8 +171,6 @@ const clamp = (v: number, min: number, max: number) =>
 const rand = (min: number, max: number) => min + Math.random() * (max - min);
 const drift = (v: number, step: number, min: number, max: number) =>
   clamp(v + rand(-step, step), min, max);
-
-/* ---------------------------- Battery physics ---------------------------- */
 
 /** LiFePO₄ resting voltage vs. state of charge (flat in the middle). */
 const OCV_CURVE: [soc: number, volts: number][] = [
@@ -223,8 +211,6 @@ function timeEstimate(soc: number, netW: number) {
   const m = Math.round((hours - h) * 60);
   return `${h}h ${String(m).padStart(2, "0")}m`;
 }
-
-/* ------------------------ Fuzzy climate controller ----------------------- */
 
 type FuzzySet = "COLD" | "COOL" | "COMFORT" | "WARM";
 type FuzzyOutput = {
@@ -294,8 +280,6 @@ const powerDraw = (
   (devices.pump ? DEVICE_WATTS.pump : 0) +
   heaterWatts(devices, auto, fuzzy);
 
-/* -------------------------------- Timers --------------------------------- */
-
 /**
  * Runs `callback` repeatedly with a random delay between `minMs` and `maxMs`
  * (a recursive setTimeout, so every gap is different). Always calls the
@@ -325,8 +309,6 @@ function useJitterInterval(
     return () => clearTimeout(id);
   }, [minMs, maxMs, enabled]);
 }
-
-/* ============================== Log messages ============================= */
 
 type LogTag =
   | "SYS"
@@ -391,8 +373,6 @@ const BOOT_LOGS: [LogTag, string][] = [
 const timestamp = () =>
   new Date().toLocaleTimeString("en-GB", { hour12: false });
 
-/* =============================== Animations ============================== */
-
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const gridStagger: Variants = {
@@ -412,8 +392,6 @@ const panelIn: Variants = {
 
 const VALUE_SPRING = { type: "spring", stiffness: 90, damping: 20 } as const;
 const SWITCH_SPRING = { type: "spring", stiffness: 700, damping: 32 } as const;
-
-/* ============================ Building blocks ============================ */
 
 function Panel({
   children,
@@ -507,7 +485,6 @@ function LiveNumber({
   );
 }
 
-/** Number that counts smoothly toward its target on a spring. */
 function SpringNumber({
   value,
   decimals = 0,
@@ -537,7 +514,6 @@ function SpringNumber({
   );
 }
 
-/** Circular gauge drawn with SVG; the arc animates with a spring. */
 function Dial({
   value,
   min,
@@ -619,7 +595,6 @@ function Dial({
   );
 }
 
-/** Vertical tank with an animated fill. */
 function Tank({
   label,
   value,
@@ -703,7 +678,6 @@ function Stat({
   );
 }
 
-/** iOS-style switch: the knob glides across on a stiff spring. */
 function Toggle({
   checked,
   pending = false,
@@ -752,7 +726,6 @@ function Toggle({
   );
 }
 
-/** Thin labelled meter used for the fuzzy controller outputs. */
 function Meter({
   label,
   value,
@@ -786,8 +759,6 @@ function Meter({
     </div>
   );
 }
-
-/* ================================== Page ================================= */
 
 export default function SmartCamperDashboard() {
   const reduced = useReducedMotion() ?? false;
@@ -840,8 +811,6 @@ export default function SmartCamperDashboard() {
     timers.current.push(setTimeout(fn, ms));
   };
 
-  /* ------------------------------ Boot + clock ----------------------------- */
-
   useEffect(() => {
     const ids = BOOT_LOGS.map(([tag, text], i) =>
       setTimeout(() => pushLog(tag, text), 250 + i * 300),
@@ -864,9 +833,6 @@ export default function SmartCamperDashboard() {
     return () => pendingTimers.forEach(clearTimeout);
   }, []);
 
-  /* ---------------------------- Sensor topics ------------------------------ */
-
-  // Solar MPPT: irregular, every 3–7s.
   useJitterInterval(
     () => {
       const solarW = Math.round(drift(dataRef.current.solarW, 35, 120, 280));
@@ -881,7 +847,6 @@ export default function SmartCamperDashboard() {
     live,
   );
 
-  // Battery shunt: integrates net power every second (time-lapse ×60).
   useEffect(() => {
     if (!live) return;
     const id = setInterval(() => {
@@ -900,7 +865,6 @@ export default function SmartCamperDashboard() {
     return () => clearInterval(id);
   }, [live, ingest, pushLog]);
 
-  // Base load (fridge compressor cycling, router): every 5–9s.
   useJitterInterval(
     () =>
       ingest({
@@ -964,7 +928,6 @@ export default function SmartCamperDashboard() {
     live,
   );
 
-  // Network latency: every 2–4s.
   useJitterInterval(
     () => ingest({ latencyMs: Math.round(drift(dataRef.current.latencyMs, 6, 11, 48)) }),
     2000,
@@ -972,7 +935,6 @@ export default function SmartCamperDashboard() {
     live,
   );
 
-  // Background chatter in the terminal: every 3–6s.
   useJitterInterval(
     () => {
       const make = AMBIENT_LOGS[Math.floor(Math.random() * AMBIENT_LOGS.length)];
@@ -983,8 +945,6 @@ export default function SmartCamperDashboard() {
     6000,
     live,
   );
-
-  /* ------------------------ Smart Auto-Climate (fuzzy) --------------------- */
 
   const runFuzzy = useCallback(() => {
     const d = dataRef.current;
@@ -1044,8 +1004,6 @@ export default function SmartCamperDashboard() {
     }
   };
 
-  /* ---------------------------- Remote control ----------------------------- */
-
   const toggleDevice = (id: DeviceId) => {
     if (id === "heater" && autoRef.current) return; // managed by Auto-Climate
     const device = DEVICES.find((d) => d.id === id)!;
@@ -1055,7 +1013,6 @@ export default function SmartCamperDashboard() {
     setPending((p) => ({ ...p, [id]: true }));
     pushLog("CMD", `${device.name} state changed to ${next ? "ON" : "OFF"}`);
 
-    // The relay confirms a moment later, like a real MQTT round trip.
     const rtt = Math.round(rand(180, 650));
     later(() => {
       setPending((p) => ({ ...p, [id]: false }));
@@ -1063,17 +1020,12 @@ export default function SmartCamperDashboard() {
     }, rtt);
   };
 
-  /* ------------------------------ Terminal --------------------------------- */
-
-  // Always follow the newest line — sensor chatter, commands and AI output.
   useEffect(() => {
     const el = terminalRef.current;
     if (el) {
       el.scrollTo({ top: el.scrollHeight, behavior: reduced ? "auto" : "smooth" });
     }
   }, [logs, reduced]);
-
-  /* ----------------------------- Derived values ---------------------------- */
 
   const drawW = powerDraw(data.baseLoadW, devices, auto, fuzzy);
   const netW = data.solarW - drawW;
@@ -1116,7 +1068,6 @@ export default function SmartCamperDashboard() {
 
   return (
     <main className="relative isolate min-h-svh flex-1 overflow-hidden bg-[#05060a] font-sans text-slate-100">
-      {/* Background: blueprint grid + glows */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 opacity-50"
@@ -1140,7 +1091,6 @@ export default function SmartCamperDashboard() {
       />
 
       <div className="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 sm:pt-8 lg:px-8">
-        {/* ------------------------------ Header ------------------------------ */}
         <motion.header
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1223,14 +1173,12 @@ export default function SmartCamperDashboard() {
           </div>
         </motion.header>
 
-        {/* ------------------------------- Grid ------------------------------- */}
         <motion.div
           variants={gridStagger}
           initial="hidden"
           animate="show"
           className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-12 lg:gap-5"
         >
-          {/* Solar */}
           <Panel className="lg:col-span-4">
             <PanelHeader
               icon={Sun}
@@ -1258,7 +1206,6 @@ export default function SmartCamperDashboard() {
             </div>
           </Panel>
 
-          {/* Battery */}
           <Panel className="lg:col-span-4">
             <PanelHeader
               icon={StatusIcon}
@@ -1305,7 +1252,6 @@ export default function SmartCamperDashboard() {
               </p>
             </div>
 
-            {/* Battery level: smooth fill + cell dividers + charge shimmer */}
             <div className="mt-6 flex items-center gap-1.5">
               <div className="relative h-14 flex-1 overflow-hidden rounded-xl border border-white/10 bg-black/40 p-1.5">
                 <div className="relative h-full overflow-hidden rounded-lg">
@@ -1326,7 +1272,6 @@ export default function SmartCamperDashboard() {
                       />
                     )}
                   </motion.div>
-                  {/* Cell dividers */}
                   {Array.from({ length: 9 }, (_, i) => (
                     <span
                       key={i}
@@ -1363,7 +1308,6 @@ export default function SmartCamperDashboard() {
             </p>
           </Panel>
 
-          {/* Climate */}
           <Panel className="md:col-span-2 lg:col-span-4">
             <PanelHeader
               icon={Thermometer}
@@ -1409,7 +1353,6 @@ export default function SmartCamperDashboard() {
             </div>
           </Panel>
 
-          {/* Remote control */}
           <Panel className="lg:col-span-4">
             <PanelHeader
               icon={Power}
@@ -1418,7 +1361,6 @@ export default function SmartCamperDashboard() {
               meta={<MetaLabel>MQTT · qos 1</MetaLabel>}
             />
 
-            {/* Current power draw */}
             <div className="mb-4 rounded-xl border border-white/[0.07] bg-black/30 p-4">
               <div className="flex items-end justify-between gap-3">
                 <div>
@@ -1438,7 +1380,6 @@ export default function SmartCamperDashboard() {
                   </span>
                 </p>
               </div>
-              {/* Breakdown bar: base load + each active consumer */}
               <div className="mt-4 flex h-2 overflow-hidden rounded-full bg-white/[0.06]">
                 <motion.span
                   className="h-full bg-slate-400/70"
@@ -1467,7 +1408,6 @@ export default function SmartCamperDashboard() {
               </p>
             </div>
 
-            {/* Smart Auto-Climate */}
             <div
               className={cn(
                 "relative mb-3 overflow-hidden rounded-xl border p-3.5 transition-colors duration-500",
@@ -1588,7 +1528,6 @@ export default function SmartCamperDashboard() {
             </ul>
           </Panel>
 
-          {/* Solar history */}
           <Panel className="md:col-span-2 lg:col-span-8">
             <PanelHeader
               icon={Activity}
@@ -1609,7 +1548,6 @@ export default function SmartCamperDashboard() {
                   <span className="h-px flex-1 border-t border-dashed border-white/[0.07]" />
                 </div>
               ))}
-              {/* Current draw reference line */}
               <motion.div
                 aria-hidden
                 className="absolute left-11 right-0 z-10 border-t border-dashed border-orange-400/70"
@@ -1643,7 +1581,6 @@ export default function SmartCamperDashboard() {
             </div>
           </Panel>
 
-          {/* Water tanks */}
           <Panel className="lg:col-span-4">
             <PanelHeader
               icon={Droplets}
@@ -1669,7 +1606,6 @@ export default function SmartCamperDashboard() {
             </div>
           </Panel>
 
-          {/* Terminal — spans two rows on desktop */}
           <Panel className="flex flex-col !p-0 md:col-span-2 lg:col-span-8 lg:row-span-2">
             <div className="flex items-center justify-between gap-3 border-b border-white/[0.07] bg-black/40 px-4 py-2.5">
               <div className="flex items-center gap-2">
@@ -1722,7 +1658,6 @@ export default function SmartCamperDashboard() {
             </div>
           </Panel>
 
-          {/* Edge gateway */}
           <Panel className="lg:col-span-4">
             <PanelHeader icon={Cpu} title="Edge gateway" />
             <div className="space-y-2">

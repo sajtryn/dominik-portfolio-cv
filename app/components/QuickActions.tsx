@@ -85,10 +85,6 @@ function CardBody({
   );
 }
 
-/**
- * Quick access for recruiters and clients, right under the hero:
- * the CV / terminal page and the VictoriaCamp-IT business site.
- */
 export default function QuickActions() {
   const { t } = useLanguage();
   const q = t.quickAccess;
@@ -112,7 +108,6 @@ export default function QuickActions() {
         </motion.p>
 
         <div className="flex flex-col gap-4 sm:flex-row">
-          {/* HR / resume — internal route */}
           <motion.div variants={item} className="flex flex-1">
             <Link
               href="/projects/terminal-cv"
@@ -132,7 +127,6 @@ export default function QuickActions() {
             </Link>
           </motion.div>
 
-          {/* Business — external site */}
           <motion.div variants={item} className="flex flex-1">
             <a
               href={BUSINESS_URL}
