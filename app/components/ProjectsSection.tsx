@@ -11,7 +11,14 @@ import {
   useTransform,
   type Variants,
 } from "framer-motion";
-import { ArrowUpRight, Bot, Caravan, Dumbbell, type LucideIcon } from "lucide-react";
+import {
+  ArrowUpRight,
+  Bot,
+  Caravan,
+  Dumbbell,
+  SquareTerminal,
+  type LucideIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import type { ProjectId } from "@/translations";
@@ -55,6 +62,13 @@ const PROJECTS: ProjectMeta[] = [
     stack: ["Next.js", "TypeScript", "Framer Motion"],
     href: "/projects/traineros",
     accent: { rgb: "163,230,53", text: "text-lime-300", from: "from-lime-500/25" },
+  },
+  {
+    id: "terminal",
+    icon: SquareTerminal,
+    stack: ["React", "TypeScript", "CLI UX"],
+    href: "/projects/terminal-cv",
+    accent: { rgb: "34,197,94", text: "text-green-400", from: "from-green-500/25" },
   },
 ];
 
@@ -214,6 +228,10 @@ function ProjectCard({
     py.set(0);
   };
 
+  // "#" or null means no demo yet: the card isn't clickable.
+  const href = project.href && project.href !== "#" ? project.href : null;
+  const external = href !== null && !href.startsWith("/");
+
   return (
     // The wrapper handles the entrance pop; the card inside handles the tilt
     // (transformPerspective gives the rotation real depth).
@@ -281,20 +299,19 @@ function ProjectCard({
           </ul>
 
           <div className="mt-auto pt-6">
-            {project.href && project.href !== "#" ? (
-              <Link
-                href={project.href}
-                {...(project.href.startsWith("/")
-                  ? {}
-                  : { target: "_blank", rel: "noopener noreferrer" })}
-                className="group/launch inline-flex items-center gap-2 rounded-lg px-3 py-2 -ml-3 text-sm font-semibold text-slate-200 transition-colors duration-300 hover:bg-white/[0.05] hover:text-cyan-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+            {href ? (
+              // Decorative: the whole card is the link (see overlay below), so
+              // this reacts to the card's hover instead of its own.
+              <span
+                aria-hidden
+                className="inline-flex items-center gap-2 rounded-lg px-3 py-2 -ml-3 text-sm font-semibold text-slate-200 transition-colors duration-300 group-hover:bg-white/[0.05] group-hover:text-cyan-200"
               >
                 {p.launch}
                 <ArrowUpRight
                   aria-hidden
-                  className="size-4 transition-transform duration-300 group-hover/launch:-translate-y-0.5 group-hover/launch:translate-x-0.5"
+                  className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                 />
-              </Link>
+              </span>
             ) : (
               // No demo URL yet: same look, but not clickable.
               <span
@@ -309,6 +326,17 @@ function ProjectCard({
             )}
           </div>
         </div>
+
+        {/* Full-card link: the whole card opens the project. Sits under the
+            glare (also z-10, later in the DOM, but pointer-events-none). */}
+        {href && (
+          <Link
+            href={href}
+            {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            aria-label={`${copy.title} — ${p.launch}`}
+            className="absolute inset-0 z-10 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-300"
+          />
+        )}
 
         {/* Glare: a soft white reflection on top of everything, following the cursor */}
         <motion.span
@@ -377,7 +405,7 @@ export default function ProjectsSection() {
           initial={initial}
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}
-          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+          className="grid grid-cols-1 gap-6 md:grid-cols-2"
         >
           {PROJECTS.map((project, i) => (
             <ProjectCard

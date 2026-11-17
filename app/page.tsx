@@ -20,6 +20,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import QuickActions from "./components/QuickActions";
 import ResumeSection from "./components/ResumeSection";
 import ProjectsSection from "./components/ProjectsSection";
 import ContactSection from "./components/ContactSection";
@@ -375,6 +376,7 @@ export default function Home() {
         />
       </section>
 
+      <QuickActions />
       <ResumeSection />
       <ProjectsSection />
       <ContactSection />

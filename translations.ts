@@ -18,6 +18,14 @@ const en = {
   common: {
     backToTop: "Back to top",
   },
+  quickAccess: {
+    label: "Quick access",
+    resumeTitle: "Resume & Interactive CLI",
+    resumeSubtitle: "Access my PDF CV or explore via terminal.",
+    businessTitle: "VictoriaCamp-IT",
+    businessSubtitle: "My commercial campervan conversion business.",
+    newTab: "opens in a new tab",
+  },
   hero: {
     availability: "Available for B2B projects",
     subtitle: "Software Engineer & B2B Tech Partner",
@@ -141,6 +149,12 @@ const en = {
         description:
           "Premium coaching platform for trainers and athletes. Phase 1: typed data architecture and a dual-role authorization portal.",
       },
+      terminal: {
+        category: "CLI · Interactive resume",
+        title: "Interactive Profile (CLI)",
+        description:
+          "A command-line interface bringing my resume to life. Type commands to explore my tech stack, experience, and download the classic PDF.",
+      },
     },
   },
   contact: {
@@ -217,6 +231,14 @@ const pl: Dictionary = {
   },
   common: {
     backToTop: "Na górę",
+  },
+  quickAccess: {
+    label: "Szybki dostęp",
+    resumeTitle: "CV i interaktywny terminal",
+    resumeSubtitle: "Pobierz moje CV w PDF albo przeglądaj je w terminalu.",
+    businessTitle: "VictoriaCamp-IT",
+    businessSubtitle: "Moja firma zajmująca się zabudową kamperów.",
+    newTab: "otwiera się w nowej karcie",
   },
   hero: {
     availability: "Dostępny dla projektów B2B",
@@ -340,6 +362,12 @@ const pl: Dictionary = {
         description:
           "Platforma coachingowa premium dla trenerów i podopiecznych. Etap 1: typowana architektura danych i portal logowania dla dwóch ról.",
       },
+      terminal: {
+        category: "CLI · Interaktywne CV",
+        title: "Interactive Profile (CLI)",
+        description:
+          "Interfejs wiersza poleceń, który ożywia moje CV. Wpisuj komendy, aby poznać mój stack technologiczny i doświadczenie oraz pobrać klasyczne CV w PDF.",
+      },
     },
   },
   contact: {
@@ -410,6 +438,14 @@ const de: Dictionary = {
   },
   common: {
     backToTop: "Nach oben",
+  },
+  quickAccess: {
+    label: "Schnellzugriff",
+    resumeTitle: "Lebenslauf & interaktive CLI",
+    resumeSubtitle: "PDF-Lebenslauf abrufen oder im Terminal erkunden.",
+    businessTitle: "VictoriaCamp-IT",
+    businessSubtitle: "Mein Unternehmen für Campervan-Ausbauten.",
+    newTab: "öffnet in einem neuen Tab",
   },
   hero: {
     availability: "Verfügbar für B2B-Projekte",
@@ -532,6 +568,12 @@ const de: Dictionary = {
         title: "TrainerOS",
         description:
           "Premium-Coaching-Plattform für Trainer und Athleten. Phase 1: typisierte Datenarchitektur und ein Login-Portal für zwei Rollen.",
+      },
+      terminal: {
+        category: "CLI · Interaktiver Lebenslauf",
+        title: "Interactive Profile (CLI)",
+        description:
+          "Eine Kommandozeile, die meinen Lebenslauf zum Leben erweckt. Gib Befehle ein, um meinen Tech-Stack und meine Erfahrung zu erkunden und das klassische PDF herunterzuladen.",
       },
     },
   },
