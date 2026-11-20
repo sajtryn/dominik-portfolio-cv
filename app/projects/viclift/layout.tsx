@@ -4,12 +4,12 @@ import type { ReactNode } from "react";
 // The portal page is a Client Component, which can't export metadata,
 // so the route's title and description live here.
 export const metadata: Metadata = {
-  title: "TrainerOS // Authorization · Dominik Rodziewicz",
+  title: "VicLift // Authorization · Dominik Rodziewicz",
   description:
-    "TrainerOS — a premium B2B coaching platform. Phase 1: data architecture and dual-role login portal for coaches and athletes.",
+    "VicLift: B2B SaaS for personal trainers and athletes (beta). Interactive concept of the coach and athlete dashboards.",
 };
 
-export default function TrainerOsLayout({
+export default function VicLiftLayout({
   children,
 }: {
   children: ReactNode;

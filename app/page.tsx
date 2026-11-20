@@ -24,6 +24,7 @@ import QuickActions from "./components/QuickActions";
 import ResumeSection from "./components/ResumeSection";
 import ProjectsSection from "./components/ProjectsSection";
 import ContactSection from "./components/ContactSection";
+import SiteFooter from "./components/SiteFooter";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -363,6 +364,7 @@ export default function Home() {
       <ResumeSection />
       <ProjectsSection />
       <ContactSection />
+      <SiteFooter />
     </main>
   );
 }

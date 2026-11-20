@@ -544,7 +544,7 @@ function LoginPortal({ onSelect }: { onSelect: (role: Role) => void }) {
         </Link>
         <span className="hidden items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.25em] text-neutral-500 sm:inline-flex">
           <HeartPulse className="size-3.5 text-red-500" aria-hidden />
-          Gym floor open · Phase 1
+          Gym floor open · Beta
         </span>
       </div>
 
@@ -566,7 +566,7 @@ function LoginPortal({ onSelect }: { onSelect: (role: Role) => void }) {
           variants={rise}
           className="mt-4 flex min-w-0 flex-wrap items-baseline gap-x-[0.3em] text-[clamp(2rem,9vw,6.5rem)] font-black uppercase leading-[0.92] tracking-tighter text-white [overflow-wrap:anywhere]"
         >
-          <span>TrainerOS</span>
+          <span>VicLift</span>
           <span className="text-neutral-700">{"//"}</span>
           <span className="bg-gradient-to-r from-lime-300 via-lime-400 to-lime-500 bg-clip-text text-transparent">
             Authorization
@@ -1180,7 +1180,7 @@ function TrainerDashboard({ onDisconnect }: { onDisconnect: () => void }) {
               <ClipboardList className="size-5" strokeWidth={2.25} aria-hidden />
             </span>
             <p className="truncate text-sm font-black uppercase tracking-tight text-white sm:text-lg">
-              TrainerOS <span className="text-neutral-600">{"//"}</span>{" "}
+              VicLift <span className="text-neutral-600">{"//"}</span>{" "}
               <span className="text-lime-400">Command Center</span>
             </p>
           </div>
@@ -1803,7 +1803,7 @@ function AthleteDashboard({ onDisconnect }: { onDisconnect: () => void }) {
               <Dumbbell className="size-5" strokeWidth={2.25} aria-hidden />
             </span>
             <p className="truncate text-sm font-black uppercase tracking-tight text-white sm:text-lg">
-              TrainerOS <span className="text-neutral-600">{"//"}</span>{" "}
+              VicLift <span className="text-neutral-600">{"//"}</span>{" "}
               <span className="text-red-500">Athlete</span>
             </p>
           </div>
@@ -2120,7 +2120,7 @@ function SessionSummary({
   );
 }
 
-export default function TrainerOsPage() {
+export default function VicLiftPage() {
   const [activeRole, setActiveRole] = useState<Role | null>(null);
   const disconnect = () => setActiveRole(null);
 

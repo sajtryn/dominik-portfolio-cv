@@ -39,13 +39,14 @@ import {
   type ProjectRequest,
 } from "@/lib/submitProjectRequest";
 import { useLanguage } from "@/context/LanguageContext";
+import { COMPANY } from "@/lib/company";
 import {
   translations,
   type ServiceId,
   type TimelineId,
 } from "@/translations";
 
-const CONTACT_EMAIL = "dominikit32123@gmail.com";
+const CONTACT_EMAIL = COMPANY.email;
 
 const SERVICE_ICONS: Record<ServiceId, LucideIcon> = {
   web: Globe,

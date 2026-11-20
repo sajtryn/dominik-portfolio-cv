@@ -21,6 +21,27 @@ const en = {
     businessSubtitle: "My commercial campervan conversion business.",
     newTab: "opens in a new tab",
   },
+  footer: {
+    impressum: "Impressum / Legal",
+    github: "GitHub",
+    email: "Email",
+  },
+  impressum: {
+    kicker: "// Impressum",
+    title: "Legal notice",
+    intro: "Information about the operator of this website.",
+    company: "Company",
+    owner: "Owner",
+    legalForm: "Legal form",
+    legalFormValue: "Sole proprietorship (Jednoosobowa Działalność Gospodarcza)",
+    address: "Address",
+    country: "Poland",
+    nip: "NIP (VAT ID)",
+    contact: "Contact",
+    email: "Email",
+    phone: "Phone",
+    back: "Back to portfolio",
+  },
   hero: {
     availability: "Available for B2B projects",
     subtitle: "Software Engineer & B2B Tech Partner",
@@ -138,11 +159,11 @@ const en = {
         description:
           "Web-based interface for a custom Python AI assistant, featuring real-time speech processing and autonomous function calling.",
       },
-      traineros: {
-        category: "B2B SaaS · Phase 1",
-        title: "TrainerOS",
+      viclift: {
+        category: "B2B SaaS · Beta / In Testing",
+        title: "VicLift",
         description:
-          "Premium coaching platform for trainers and athletes. Phase 1: typed data architecture and a dual-role authorization portal.",
+          "Commercial B2B SaaS platform for personal trainers and athletes, on web and mobile (Next.js, React Native / Expo, Supabase). Live workout timers, readiness, fatigue and sleep telemetry, body metrics, workout packages and real-time coach notifications.",
       },
       terminal: {
         category: "CLI · Interactive resume",
@@ -234,6 +255,27 @@ const pl: Dictionary = {
     businessTitle: "VictoriaCamp-IT",
     businessSubtitle: "Moja firma zajmująca się zabudową kamperów.",
     newTab: "otwiera się w nowej karcie",
+  },
+  footer: {
+    impressum: "Impressum / Dane firmy",
+    github: "GitHub",
+    email: "E-mail",
+  },
+  impressum: {
+    kicker: "// Impressum",
+    title: "Dane firmy",
+    intro: "Informacje o właścicielu tej strony.",
+    company: "Firma",
+    owner: "Właściciel",
+    legalForm: "Forma prawna",
+    legalFormValue: "Jednoosobowa działalność gospodarcza",
+    address: "Adres",
+    country: "Polska",
+    nip: "NIP",
+    contact: "Kontakt",
+    email: "E-mail",
+    phone: "Telefon",
+    back: "Powrót do portfolio",
   },
   hero: {
     availability: "Dostępny dla projektów B2B",
@@ -351,11 +393,11 @@ const pl: Dictionary = {
         description:
           "Webowy interfejs dla autorskiego asystenta AI w Pythonie, z przetwarzaniem mowy w czasie rzeczywistym i autonomicznym wywoływaniem funkcji.",
       },
-      traineros: {
-        category: "SaaS B2B · Etap 1",
-        title: "TrainerOS",
+      viclift: {
+        category: "SaaS B2B · Beta / w testach",
+        title: "VicLift",
         description:
-          "Platforma coachingowa premium dla trenerów i podopiecznych. Etap 1: typowana architektura danych i portal logowania dla dwóch ról.",
+          "Komercyjna platforma SaaS B2B dla trenerów personalnych i ich podopiecznych, na web i mobile (Next.js, React Native / Expo, Supabase). Timery treningowe na żywo, telemetria gotowości, zmęczenia i snu, pomiary ciała, pakiety treningowe oraz powiadomienia dla trenera w czasie rzeczywistym.",
       },
       terminal: {
         category: "CLI · Interaktywne CV",
@@ -441,6 +483,27 @@ const de: Dictionary = {
     businessTitle: "VictoriaCamp-IT",
     businessSubtitle: "Mein Unternehmen für Campervan-Ausbauten.",
     newTab: "öffnet in einem neuen Tab",
+  },
+  footer: {
+    impressum: "Impressum",
+    github: "GitHub",
+    email: "E-Mail",
+  },
+  impressum: {
+    kicker: "// Angaben gemäß § 5 DDG",
+    title: "Impressum",
+    intro: "Angaben zum Betreiber dieser Website.",
+    company: "Unternehmen",
+    owner: "Inhaber",
+    legalForm: "Rechtsform",
+    legalFormValue: "Einzelunternehmen (Jednoosobowa Działalność Gospodarcza)",
+    address: "Anschrift",
+    country: "Polen",
+    nip: "NIP (Steuernummer)",
+    contact: "Kontakt",
+    email: "E-Mail",
+    phone: "Telefon",
+    back: "Zurück zum Portfolio",
   },
   hero: {
     availability: "Verfügbar für B2B-Projekte",
@@ -558,11 +621,11 @@ const de: Dictionary = {
         description:
           "Weboberfläche für einen individuellen Python-KI-Assistenten mit Sprachverarbeitung in Echtzeit und autonomem Function Calling.",
       },
-      traineros: {
-        category: "B2B-SaaS · Phase 1",
-        title: "TrainerOS",
+      viclift: {
+        category: "B2B-SaaS · Beta / im Test",
+        title: "VicLift",
         description:
-          "Premium-Coaching-Plattform für Trainer und Athleten. Phase 1: typisierte Datenarchitektur und ein Login-Portal für zwei Rollen.",
+          "Kommerzielle B2B-SaaS-Plattform für Personal Trainer und Athleten, für Web und Mobile (Next.js, React Native / Expo, Supabase). Live-Workout-Timer, Telemetrie zu Bereitschaft, Ermüdung und Schlaf, Körpermesswerte, Trainingspakete und Echtzeit-Benachrichtigungen für Coaches.",
       },
       terminal: {
         category: "CLI · Interaktiver Lebenslauf",

@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
     agentFeedback: true,
   },
   cacheComponents: true,
+  async redirects() {
+    return [
+      { source: "/projects/traineros", destination: "/projects/viclift", permanent: true },
+    ];
+  },
   partialPrefetching: true,
   turbopack: {
     rules: {
