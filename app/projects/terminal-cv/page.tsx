@@ -34,7 +34,8 @@ interface HistoryEntry {
 }
 
 type CommandName = "help" | "whoami" | "skills" | "lang" | "clear" | "download_cv";
-const COMMAND_NAMES: CommandName[] = ["help", "whoami", "skills", "lang", "clear", "download_cv"];
+// download_cv is temporarily disabled: remove it from this exclusion to bring it back.
+const COMMAND_NAMES: CommandName[] = ["help", "whoami", "skills", "lang", "clear"];
 const isCommand = (s: string): s is CommandName => (COMMAND_NAMES as string[]).includes(s);
 
 type Strings = {

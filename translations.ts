@@ -16,7 +16,7 @@ const en = {
   quickAccess: {
     label: "Quick access",
     resumeTitle: "Resume & Interactive CLI",
-    resumeSubtitle: "Access my PDF CV or explore via terminal.",
+    resumeSubtitle: "Explore my CV via terminal.",
     businessTitle: "VictoriaCamp-IT",
     businessSubtitle: "My commercial campervan conversion business.",
     newTab: "opens in a new tab",
@@ -169,7 +169,7 @@ const en = {
         category: "CLI · Interactive resume",
         title: "Interactive Profile (CLI)",
         description:
-          "A command-line interface bringing my resume to life. Type commands to explore my tech stack, experience, and download the classic PDF.",
+          "A command-line interface bringing my resume to life. Type commands to explore my tech stack and experience.",
       },
     },
   },
@@ -251,7 +251,7 @@ const pl: Dictionary = {
   quickAccess: {
     label: "Szybki dostęp",
     resumeTitle: "CV i interaktywny terminal",
-    resumeSubtitle: "Pobierz moje CV w PDF albo przeglądaj je w terminalu.",
+    resumeSubtitle: "Przeglądaj moje CV w terminalu.",
     businessTitle: "VictoriaCamp-IT",
     businessSubtitle: "Moja firma zajmująca się zabudową kamperów.",
     newTab: "otwiera się w nowej karcie",
@@ -403,7 +403,7 @@ const pl: Dictionary = {
         category: "CLI · Interaktywne CV",
         title: "Interactive Profile (CLI)",
         description:
-          "Interfejs wiersza poleceń, który ożywia moje CV. Wpisuj komendy, aby poznać mój stack technologiczny i doświadczenie oraz pobrać klasyczne CV w PDF.",
+          "Interfejs wiersza poleceń, który ożywia moje CV. Wpisuj komendy, aby poznać mój stack technologiczny i doświadczenie.",
       },
     },
   },
@@ -479,7 +479,7 @@ const de: Dictionary = {
   quickAccess: {
     label: "Schnellzugriff",
     resumeTitle: "Lebenslauf & interaktive CLI",
-    resumeSubtitle: "PDF-Lebenslauf abrufen oder im Terminal erkunden.",
+    resumeSubtitle: "Meinen Lebenslauf im Terminal erkunden.",
     businessTitle: "VictoriaCamp-IT",
     businessSubtitle: "Mein Unternehmen für Campervan-Ausbauten.",
     newTab: "öffnet in einem neuen Tab",
@@ -631,7 +631,7 @@ const de: Dictionary = {
         category: "CLI · Interaktiver Lebenslauf",
         title: "Interactive Profile (CLI)",
         description:
-          "Eine Kommandozeile, die meinen Lebenslauf zum Leben erweckt. Gib Befehle ein, um meinen Tech-Stack und meine Erfahrung zu erkunden und das klassische PDF herunterzuladen.",
+          "Eine Kommandozeile, die meinen Lebenslauf zum Leben erweckt. Gib Befehle ein, um meinen Tech-Stack und meine Erfahrung zu erkunden.",
       },
     },
   },

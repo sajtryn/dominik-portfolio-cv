@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
 export const metadata: Metadata = {
   title: "dominik@portfolio:~$ · Interactive Profile (CLI)",
   description:
-    "Dominik Rodziewicz's resume as a command-line interface: type help, whoami, skills or download_cv.",
+    "Dominik Rodziewicz's resume as a command-line interface: type help, whoami, or skills.",
 };
 
 export default function TerminalCvLayout({
