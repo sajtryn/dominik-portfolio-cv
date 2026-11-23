@@ -52,13 +52,14 @@ const PROJECTS: ProjectMeta[] = [
     href: "/projects/ai-terminal",
     accent: { rgb: "168,85,247", text: "text-purple-300", from: "from-purple-500/25" },
   },
-  {
-    id: "viclift",
-    icon: Dumbbell,
-    stack: ["Next.js", "React Native / Expo", "Supabase"],
-    href: "/projects/viclift",
-    accent: { rgb: "163,230,53", text: "text-lime-300", from: "from-lime-500/25" },
-  },
+  // VicLift temporarily hidden; restore this entry to show it again.
+  // {
+  //   id: "viclift",
+  //   icon: Dumbbell,
+  //   stack: ["Next.js", "React Native / Expo", "Supabase"],
+  //   href: "/projects/viclift",
+  //   accent: { rgb: "163,230,53", text: "text-lime-300", from: "from-lime-500/25" },
+  // },
   {
     id: "terminal",
     icon: SquareTerminal,
