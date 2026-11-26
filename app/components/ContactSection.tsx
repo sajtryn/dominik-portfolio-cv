@@ -16,19 +16,20 @@ import {
 } from "framer-motion";
 import {
   ArrowLeft,
-  BrainCircuit,
   CalendarRange,
   Check,
   CircleCheck,
-  Cog,
   Copy,
   Globe,
+  Handshake,
   Hourglass,
   LoaderCircle,
   MapPin,
   MessageCircleQuestion,
+  MessagesSquare,
   RotateCcw,
   Send,
+  Smartphone,
   Zap,
   type LucideIcon,
 } from "lucide-react";
@@ -49,9 +50,10 @@ import {
 const CONTACT_EMAIL = COMPANY.email;
 
 const SERVICE_ICONS: Record<ServiceId, LucideIcon> = {
-  web: Globe,
-  automation: Cog,
-  ai: BrainCircuit,
+  consultation: MessagesSquare,
+  website: Globe,
+  mobile: Smartphone,
+  meeting: Handshake,
   other: MessageCircleQuestion,
 };
 const SERVICE_IDS = Object.keys(SERVICE_ICONS) as ServiceId[];
@@ -591,7 +593,7 @@ function ProjectConfigurator() {
                     <h4 className="mb-4 text-lg font-medium text-slate-200">
                       {f.serviceQuestion}
                     </h4>
-                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:[&>*:last-child]:col-span-2">
                       {SERVICE_IDS.map((id) => (
                         <OptionTile
                           key={id}

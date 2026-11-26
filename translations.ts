@@ -46,7 +46,7 @@ const en = {
     availability: "Available for B2B projects",
     subtitle: "Software Engineer & B2B Tech Partner",
     description:
-      "Bridging the gap between robust software architecture and real-world business logic. Building scalable web applications, custom ERPs, and AI integrations.",
+      "I combine solid software architecture with real business logic. I build web apps, mobile apps, and much more!",
     ctaWork: "Explore My Work",
     ctaAbout: "About Me",
     ctaContact: "Let's Talk Business",
@@ -197,13 +197,11 @@ const en = {
       serviceQuestion: "How can I help you?",
       timelineQuestion: "What's the timeline?",
       services: {
-        web: { label: "Web Application", hint: "Next.js, dashboards, portals" },
-        automation: {
-          label: "B2B Automation / ERP",
-          hint: "Workflows, custom ERP, integrations",
-        },
-        ai: { label: "AI Integration", hint: "LLMs, assistants, data pipelines" },
-        other: { label: "Other", hint: "Networks, consulting, something new" },
+        consultation: { label: "Consultation", hint: "Advice before you decide" },
+        website: { label: "Website", hint: "Company sites, landing pages" },
+        mobile: { label: "Mobile App", hint: "For iOS and Android" },
+        meeting: { label: "Business Meeting", hint: "Let's talk cooperation" },
+        other: { label: "Other", hint: "Something else" },
       },
       timelines: {
         asap: { label: "ASAP", hint: "Kick off within days" },
@@ -227,9 +225,9 @@ const en = {
       back: "Back",
       successTitle: (name: string) =>
         `Request received${name ? `, ${name}` : ""}!`,
-      successBefore: "Thanks for the details on your ",
+      successBefore: "Thanks for your request about “",
       successAfter:
-        " project. I'll review it and get back to you within one business day.",
+        "”. I'll review it and get back to you within one business day.",
       restart: "Start another request",
     },
   },
@@ -281,7 +279,7 @@ const pl: Dictionary = {
     availability: "Dostępny dla projektów B2B",
     subtitle: "Inżynier oprogramowania i partner technologiczny B2B",
     description:
-      "Łączę solidną architekturę oprogramowania z realną logiką biznesową. Tworzę skalowalne aplikacje webowe, dedykowane systemy ERP i integracje AI.",
+      "Łączę solidną architekturę oprogramowania z realną logiką biznesową. Tworzę aplikacje webowe, mobilne i o wiele więcej!",
     ctaWork: "Zobacz moje projekty",
     ctaAbout: "O mnie",
     ctaContact: "Porozmawiajmy o biznesie",
@@ -432,13 +430,11 @@ const pl: Dictionary = {
       serviceQuestion: "W czym mogę pomóc?",
       timelineQuestion: "Jaki jest termin?",
       services: {
-        web: { label: "Aplikacja webowa", hint: "Next.js, panele, portale" },
-        automation: {
-          label: "Automatyzacja B2B / ERP",
-          hint: "Procesy, dedykowany ERP, integracje",
-        },
-        ai: { label: "Integracja AI", hint: "Modele LLM, asystenci, przetwarzanie danych" },
-        other: { label: "Inne", hint: "Sieci, doradztwo, coś nowego" },
+        consultation: { label: "Konsultacja", hint: "Porada, zanim zdecydujesz" },
+        website: { label: "Strona internetowa", hint: "Strony firmowe, landing page" },
+        mobile: { label: "Aplikacja mobilna", hint: "Na iOS i Androida" },
+        meeting: { label: "Spotkanie biznesowe", hint: "Porozmawiajmy o współpracy" },
+        other: { label: "Inne", hint: "Coś innego" },
       },
       timelines: {
         asap: { label: "Jak najszybciej", hint: "Start w ciągu kilku dni" },
@@ -461,7 +457,7 @@ const pl: Dictionary = {
       back: "Wstecz",
       successTitle: (name: string) =>
         `Zapytanie otrzymane${name ? `, ${name}` : ""}!`,
-      successBefore: "Dziękuję za szczegóły projektu „",
+      successBefore: "Dziękuję za zapytanie w temacie „",
       successAfter: "”. Przejrzę je i odezwę się w ciągu jednego dnia roboczego.",
       restart: "Wyślij kolejne zapytanie",
     },
@@ -509,7 +505,7 @@ const de: Dictionary = {
     availability: "Verfügbar für B2B-Projekte",
     subtitle: "Software Engineer & B2B-Technologiepartner",
     description:
-      "Ich verbinde robuste Softwarearchitektur mit realer Geschäftslogik. Ich entwickle skalierbare Webanwendungen, individuelle ERP-Systeme und KI-Integrationen.",
+      "Ich verbinde solide Softwarearchitektur mit realer Geschäftslogik. Ich entwickle Web-Apps, mobile Apps und vieles mehr!",
     ctaWork: "Meine Arbeit ansehen",
     ctaAbout: "Über mich",
     ctaContact: "Geschäftlich sprechen",
@@ -660,13 +656,11 @@ const de: Dictionary = {
       serviceQuestion: "Wie kann ich helfen?",
       timelineQuestion: "Wie ist der Zeitrahmen?",
       services: {
-        web: { label: "Webanwendung", hint: "Next.js, Dashboards, Portale" },
-        automation: {
-          label: "B2B-Automatisierung / ERP",
-          hint: "Workflows, individuelles ERP, Integrationen",
-        },
-        ai: { label: "KI-Integration", hint: "LLMs, Assistenten, Datenpipelines" },
-        other: { label: "Sonstiges", hint: "Netzwerke, Beratung, etwas Neues" },
+        consultation: { label: "Beratung", hint: "Rat vor der Entscheidung" },
+        website: { label: "Website", hint: "Firmenseiten, Landingpages" },
+        mobile: { label: "Mobile App", hint: "Für iOS und Android" },
+        meeting: { label: "Geschäftstermin", hint: "Über Zusammenarbeit sprechen" },
+        other: { label: "Sonstiges", hint: "Etwas anderes" },
       },
       timelines: {
         asap: { label: "So bald wie möglich", hint: "Start innerhalb weniger Tage" },
@@ -690,7 +684,7 @@ const de: Dictionary = {
       back: "Zurück",
       successTitle: (name: string) =>
         `Anfrage erhalten${name ? `, ${name}` : ""}!`,
-      successBefore: "Danke für die Details zu Ihrem Projekt „",
+      successBefore: "Danke für Ihre Anfrage zum Thema „",
       successAfter: "“. Ich prüfe sie und melde mich innerhalb eines Werktags.",
       restart: "Neue Anfrage starten",
     },
