@@ -151,7 +151,7 @@ const en = {
         category: "2D configurator · Live demo",
         title: "Camperiada",
         description:
-          "Campervan conversion configurator for the VW T5: place modules on layered 2D technical views and watch price, weight (against the vehicle's gross weight limit) and installation time recalculate instantly. No login needed; the demo UI is in Polish.",
+          "Campervan conversion configurator for the VW T5: place modules on layered 2D technical views and watch price, weight (against the vehicle's gross weight limit) and installation time recalculate instantly. No login needed.",
         launch: "Live Demo",
       },
       camper: {
@@ -623,7 +623,7 @@ const de: Dictionary = {
         category: "2D-Konfigurator · Live-Demo",
         title: "Camperiada",
         description:
-          "Ausbau-Konfigurator für den VW-T5-Campervan: Module auf mehrschichtigen 2D-Ansichten platzieren, während Preis, Gewicht (mit zulässigem Gesamtgewicht) und Montagezeit sofort neu berechnet werden. Ohne Login; die Demo-Oberfläche ist auf Polnisch.",
+          "Ausbau-Konfigurator für den VW-T5-Campervan: Module auf mehrschichtigen 2D-Ansichten platzieren, während Preis, Gewicht (mit zulässigem Gesamtgewicht) und Montagezeit sofort neu berechnet werden. Ohne Login.",
         launch: "Demo starten",
       },
       camper: {

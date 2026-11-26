@@ -80,29 +80,3 @@ export function calculateBuildSummary(selectedComponents: readonly CalculableCom
     dmcStatus: getDmcStatus(totalWeightKg),
   };
 }
-
-// ─── Formatting (Polish) ──────────────────────────────────────────────────────
-
-// `useGrouping: "always"` so 4-digit amounts are grouped too ("5 500,00 zł");
-// the pl-PL default only groups from 5 digits.
-const plnFormatter = new Intl.NumberFormat("pl-PL", {
-  style: "currency",
-  currency: "PLN",
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-  useGrouping: "always",
-});
-
-/** Formats grosze as PLN, e.g. 1450000 → "14 500,00 zł". */
-export function formatPln(grosze: number): string {
-  return plnFormatter.format(grosze / 100);
-}
-
-/** Polish plural form: 1 dzień, 2–4 dni, 5+ dni (with the 12–14 exception). */
-export function pluralPl(n: number, one: string, few: string, many: string): string {
-  if (n === 1) return one;
-  const mod10 = n % 10;
-  const mod100 = n % 100;
-  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return few;
-  return many;
-}

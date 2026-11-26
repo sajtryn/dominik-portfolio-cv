@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400" fill="none" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">
+  <title>Schienensitz mit Schlaffunktion (4 Sitze)</title>
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a3442"/><stop offset=".5" stop-color="#161c25"/><stop offset="1" stop-color="#232c38"/>
+    </linearGradient>
+    <linearGradient id="bodySide" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#334155"/><stop offset=".45" stop-color="#1e2632"/><stop offset="1" stop-color="#121821"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#67e8f9" stop-opacity=".42"/><stop offset=".55" stop-color="#0e7490" stop-opacity=".22"/><stop offset="1" stop-color="#164e63" stop-opacity=".35"/>
+    </linearGradient>
+    <linearGradient id="glare" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".0"/><stop offset=".45" stop-color="#fff" stop-opacity=".22"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="wood" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c8955d"/><stop offset=".5" stop-color="#a87443"/><stop offset="1" stop-color="#7c5230"/>
+    </linearGradient>
+    <linearGradient id="oak" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e3bb85"/><stop offset=".5" stop-color="#d4a46b"/><stop offset="1" stop-color="#c08f58"/>
+    </linearGradient>
+    <linearGradient id="birch" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ecd9b0"/><stop offset="1" stop-color="#cfae78"/>
+    </linearGradient>
+    <linearGradient id="uph" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#52525b"/><stop offset=".6" stop-color="#3f3f46"/><stop offset="1" stop-color="#27272a"/>
+    </linearGradient>
+    <linearGradient id="uphLight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#71717a"/><stop offset="1" stop-color="#52525b"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e4e4e7"/><stop offset=".5" stop-color="#a1a1aa"/><stop offset="1" stop-color="#71717a"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d4d4d8"/><stop offset="1" stop-color="#71717a"/>
+    </linearGradient>
+    <linearGradient id="device" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#27272a"/><stop offset="1" stop-color="#0c0c0e"/>
+    </linearGradient>
+    <linearGradient id="solar" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1e3a5f"/><stop offset="1" stop-color="#0b1626"/>
+    </linearGradient>
+    <linearGradient id="fabric" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#64748b"/><stop offset="1" stop-color="#334155"/>
+    </linearGradient>
+    <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f1f5f9"/><stop offset="1" stop-color="#94a3b8"/>
+    </linearGradient>
+    <radialGradient id="ledGlow">
+      <stop offset="0" stop-color="#fef3c7" stop-opacity=".95"/><stop offset=".35" stop-color="#fbbf24" stop-opacity=".45"/><stop offset="1" stop-color="#f59e0b" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="shadowR" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#000" stop-opacity=".55"/><stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grain" width="40" height="6" patternUnits="userSpaceOnUse">
+      <path d="M0 3 Q10 1.5 20 3 T40 3" stroke="#5c3a1e" stroke-opacity=".28" stroke-width=".8" fill="none"/>
+    </pattern>
+    <pattern id="quilt" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M0 0 V18 M0 0 H18" stroke="#a1a1aa" stroke-opacity=".18" stroke-width=".8"/>
+    </pattern>
+    <pattern id="felt" width="6" height="6" patternUnits="userSpaceOnUse">
+      <rect width="6" height="6" fill="#26262b"/><circle cx="1.5" cy="1.5" r=".7" fill="#52525b"/><circle cx="4.5" cy="4.5" r=".7" fill="#3f3f46"/>
+    </pattern>
+    <pattern id="foam" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#1c1c20"/><circle cx="3" cy="3" r="1.4" fill="#27272a"/><circle cx="8" cy="7" r="1" fill="#2e2e33"/>
+    </pattern>
+    <pattern id="planks" width="400" height="12" patternUnits="userSpaceOnUse">
+      <rect width="400" height="12" fill="#131418"/><path d="M0 11.5 H400" stroke="#1f2228" stroke-width="1"/>
+    </pattern>
+    <pattern id="mesh" width="4" height="4" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r=".6" fill="#22d3ee" fill-opacity=".6"/>
+    </pattern>
+    <filter id="drop" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.2" flood-color="#000" flood-opacity=".55"/>
+    </filter>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+
+  <!-- floor rails -->
+  <g filter="url(#drop)">
+    <rect x="80" y="166" width="366" height="9" rx="2" fill="url(#metal)" stroke="#52525b"/>
+    <path d="M86 170.5 H440" stroke="#27272a" stroke-width="3.5" stroke-dasharray="3.5 8.5" stroke-linecap="round"/>
+    <rect x="80" y="292" width="366" height="9" rx="2" fill="url(#metal)" stroke="#52525b"/>
+    <path d="M86 296.5 H440" stroke="#27272a" stroke-width="3.5" stroke-dasharray="3.5 8.5" stroke-linecap="round"/></g>
+  <!-- sleeping footprint -->
+  <rect x="76" y="150" width="226" height="166" rx="8" fill="url(#uphLight)" fill-opacity=".14" stroke="#a1a1aa" stroke-opacity=".6" stroke-width="1.5" stroke-dasharray="7 5"/>
+  <!-- ghost: alternative position on the rails -->
+  <rect x="130" y="154" width="56" height="158" rx="9" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <path d="M192 233 H232 M192 233 l7 -5 M192 233 l7 5 M232 233 l-7 -5 M232 233 l-7 5" stroke="#22d3ee" stroke-width="2" stroke-linecap="round"/>
+  <!-- seat bench on the rails (2 seats) -->
+  <g filter="url(#drop)">
+    <rect x="240" y="152" width="42" height="78" rx="9" fill="url(#uph)" stroke="#71717a"/>
+    <rect x="278" y="154" width="13" height="74" rx="5" fill="url(#uphLight)" stroke="#71717a"/>
+    <rect x="290" y="176" width="8" height="30" rx="3" fill="url(#uphLight)"/>
+    <path d="M246 160 L274 222" stroke="#18181b" stroke-opacity=".7" stroke-width="2.5"/>
+    <rect x="240" y="238" width="42" height="78" rx="9" fill="url(#uph)" stroke="#71717a"/>
+    <rect x="278" y="240" width="13" height="74" rx="5" fill="url(#uphLight)" stroke="#71717a"/>
+    <rect x="290" y="262" width="8" height="30" rx="3" fill="url(#uphLight)"/>
+    <path d="M246 246 L274 308" stroke="#18181b" stroke-opacity=".7" stroke-width="2.5"/></g>
+  <!-- rail clamps -->
+  <rect x="244" y="164" width="12" height="13" rx="2" fill="#18181b" stroke="#b4b4bc" stroke-width="1.5"/><rect x="276" y="164" width="12" height="13" rx="2" fill="#18181b" stroke="#b4b4bc" stroke-width="1.5"/><rect x="244" y="290" width="12" height="13" rx="2" fill="#18181b" stroke="#b4b4bc" stroke-width="1.5"/><rect x="276" y="290" width="12" height="13" rx="2" fill="#18181b" stroke="#b4b4bc" stroke-width="1.5"/>
+  <!-- 4-person layout -->
+  <g><circle cx="462" cy="104" r="8" fill="#34d399" stroke="#09090b" stroke-width="2"/><text x="462" y="107.5" fill="#09090b" font-size="10" font-weight="700" text-anchor="middle">1</text></g><g><circle cx="462" cy="248" r="8" fill="#34d399" stroke="#09090b" stroke-width="2"/><text x="462" y="251.5" fill="#09090b" font-size="10" font-weight="700" text-anchor="middle">2</text></g><g><circle cx="262" cy="191" r="8" fill="#34d399" stroke="#09090b" stroke-width="2"/><text x="262" y="194.5" fill="#09090b" font-size="10" font-weight="700" text-anchor="middle">3</text></g><g><circle cx="262" cy="277" r="8" fill="#34d399" stroke="#09090b" stroke-width="2"/><text x="262" y="280.5" fill="#09090b" font-size="10" font-weight="700" text-anchor="middle">4</text></g>
+  <text x="158" y="212" fill="#e4e4e7" font-size="11" font-weight="600" text-anchor="middle" stroke="#09090b" stroke-width="3" stroke-linejoin="round" paint-order="stroke" >Schienensitz</text>
+  <text x="158" y="227" fill="#34d399" font-size="9" font-weight="500" text-anchor="middle" stroke="#09090b" stroke-width="3" stroke-linejoin="round" paint-order="stroke" >Bett 185 × 120 cm · 4 Sitze</text>
+  <text x="212" y="252" fill="#22d3ee" font-size="9" font-weight="500" text-anchor="middle" stroke="#09090b" stroke-width="3" stroke-linejoin="round" paint-order="stroke" >verschiebbar</text>
+
+</svg>

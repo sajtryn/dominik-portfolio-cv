@@ -22,20 +22,17 @@ export type CatalogComponent = {
   seats: number | null;
 };
 
-/** Exclusive groups: card badge label and the category hint ("only one …"). */
-export const EXCLUSIVE_GROUPS: Record<string, { label: string; hint: string }> = {
-  SLEEPING: { label: "Układ spania", hint: "jeden układ spania" },
-  HEATING: { label: "Ogrzewanie", hint: "jedno ogrzewanie" },
-};
-
 /** A ruler span in SVG units of the shared 800 × 400 viewBox. */
-export type RulerSpan = { from: number; to: number; mm: number; label: string; reverse?: boolean };
+export type RulerSpan = {
+  from: number;
+  to: number;
+  mm: number;
+  label: "length" | "width" | "height";
+  reverse?: boolean;
+};
 
 export type ViewDef = {
   type: ViewType;
-  label: string;
-  short: string;
-  hint?: string;
   baseUrl: string;
   /** Millimetre rulers drawn along the top (x) and left (y) edges of the canvas. */
   rulers: { x: RulerSpan; y: RulerSpan };
@@ -46,34 +43,26 @@ export type ViewDef = {
 export const VIEWS: ViewDef[] = [
   {
     type: "TOP",
-    label: "Rzut z góry",
-    short: "Góra",
     baseUrl: "/camperiada/layers/base-top.svg",
     rulers: {
-      x: { from: 72, to: 452, mm: 2570, label: "dł." },
-      y: { from: 80, to: 320, mm: 1690, label: "szer." },
+      x: { from: 72, to: 452, mm: 2570, label: "length" },
+      y: { from: 80, to: 320, mm: 1690, label: "width" },
     },
   },
   {
     type: "LEFT",
-    label: "Ściana lewa",
-    short: "Lewa",
-    hint: "widok od wewnątrz",
     baseUrl: "/camperiada/layers/base-left.svg",
     rulers: {
-      x: { from: 72, to: 452, mm: 2570, label: "dł." },
-      y: { from: 124, to: 318, mm: 1360, label: "wys." },
+      x: { from: 72, to: 452, mm: 2570, label: "length" },
+      y: { from: 124, to: 318, mm: 1360, label: "height" },
     },
   },
   {
     type: "RIGHT",
-    label: "Ściana prawa",
-    short: "Prawa",
-    hint: "widok od wewnątrz",
     baseUrl: "/camperiada/layers/base-right.svg",
     rulers: {
-      x: { from: 348, to: 728, mm: 2570, label: "dł.", reverse: true },
-      y: { from: 124, to: 318, mm: 1360, label: "wys." },
+      x: { from: 348, to: 728, mm: 2570, label: "length", reverse: true },
+      y: { from: 124, to: 318, mm: 1360, label: "height" },
     },
   },
 ];
@@ -84,7 +73,6 @@ export const VIEW_BY_TYPE = Object.fromEntries(VIEWS.map((v) => [v.type, v])) as
 >;
 
 type CategoryMeta = {
-  label: string;
   /** Stacking order of layers on the canvas (higher = on top). */
   zIndex: number;
   /** Only one component of this category can be selected at a time. */
@@ -92,11 +80,11 @@ type CategoryMeta = {
 };
 
 export const CATEGORY_META: Record<ComponentCategory, CategoryMeta> = {
-  WALL: { label: "Tapicerka i ściany", zIndex: 10, singleSelect: true },
-  FURNITURE: { label: "Meble i zabudowa", zIndex: 20, singleSelect: false },
-  ELECTRICAL: { label: "Elektryka", zIndex: 30, singleSelect: false },
-  WINDOW: { label: "Okna", zIndex: 40, singleSelect: false },
-  ROOF: { label: "Dach", zIndex: 50, singleSelect: true },
+  WALL: { zIndex: 10, singleSelect: true },
+  FURNITURE: { zIndex: 20, singleSelect: false },
+  ELECTRICAL: { zIndex: 30, singleSelect: false },
+  WINDOW: { zIndex: 40, singleSelect: false },
+  ROOF: { zIndex: 50, singleSelect: true },
 };
 
 /** Sidebar order. */
@@ -140,25 +128,4 @@ export function layersForView(
   return selected
     .filter((c) => c.viewType === view)
     .sort((a, b) => CATEGORY_META[a.category].zIndex - CATEGORY_META[b.category].zIndex);
-}
-
-const plnFormatter = new Intl.NumberFormat("pl-PL", {
-  style: "currency",
-  currency: "PLN",
-  maximumFractionDigits: 0,
-  useGrouping: "always", // pl-PL groups only from 5 digits by default ("6500 zł")
-});
-
-/** Formats a price stored in grosze, e.g. 650000 → "6 500 zł". */
-export function formatPrice(grosze: number): string {
-  return plnFormatter.format(grosze / 100);
-}
-
-const decimalFormatter = new Intl.NumberFormat("pl-PL", {
-  maximumFractionDigits: 1,
-  useGrouping: "always",
-});
-
-export function formatNumber(value: number): string {
-  return decimalFormatter.format(value);
 }

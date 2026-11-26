@@ -2,6 +2,7 @@
 
 import { X } from "lucide-react";
 import { useEffect, useId, useRef, type ReactNode } from "react";
+import { useDemoLocale } from "./use-demo-locale";
 
 type Props = {
   open: boolean;
@@ -18,6 +19,7 @@ type Props = {
  * focus trapping, Esc handling and the top layer for free.
  */
 export function DarkDialog({ open, onClose, title, description, children, busy = false }: Props) {
+  const { t } = useDemoLocale();
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
   const descId = useId();
@@ -59,7 +61,7 @@ export function DarkDialog({ open, onClose, title, description, children, busy =
           type="button"
           onClick={onClose}
           disabled={busy}
-          aria-label="Zamknij"
+          aria-label={t.projects.close}
           className="absolute top-4 right-4 grid size-8 place-items-center rounded-lg text-zinc-500 transition hover:bg-white/5 hover:text-zinc-200 focus-visible:outline-2 focus-visible:outline-emerald-500 disabled:opacity-40"
         >
           <X className="size-4" aria-hidden />

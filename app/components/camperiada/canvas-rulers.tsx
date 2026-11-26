@@ -1,4 +1,7 @@
+"use client";
+
 import type { RulerSpan, ViewDef } from "@/lib/camperiada/configurator";
+import { useDemoLocale } from "./use-demo-locale";
 
 const MINOR = 100; // mm
 const MAJOR = 500; // mm
@@ -18,6 +21,7 @@ function ticks(span: RulerSpan) {
  * same 800 × 400 coordinate space as the blueprint layers so they line up.
  */
 export function CanvasRulers({ view }: { view: ViewDef }) {
+  const { t: text } = useDemoLocale();
   const { x, y } = view.rulers;
   const xEnd = x.reverse ? x.from : x.to;
 
@@ -54,7 +58,7 @@ export function CanvasRulers({ view }: { view: ViewDef }) {
           fontWeight="600"
           className="max-sm:hidden"
         >
-          {x.mm} mm {x.label}
+          {x.mm} mm {text.rulers[x.label]}
         </text>
 
         {/* left ruler (width / height) */}
@@ -75,7 +79,7 @@ export function CanvasRulers({ view }: { view: ViewDef }) {
         ))}
         <path d={`M2 ${y.to} H14`} stroke="rgb(52 211 153)" strokeWidth="1.5" />
         <text x="16" y={y.to + 10} fill="rgb(110 231 183)" fontWeight="600" className="max-sm:hidden">
-          {y.mm} mm {y.label}
+          {y.mm} mm {text.rulers[y.label]}
         </text>
       </g>
     </svg>

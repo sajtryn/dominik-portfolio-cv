@@ -2,7 +2,6 @@
 
 import { Check, CloudOff, CopyPlus, FolderOpen, Save, Trash2 } from "lucide-react";
 import { useEffect, useState, useSyncExternalStore, type FormEvent } from "react";
-import { pluralPl } from "@/lib/camperiada/calculator";
 import {
   deleteBuild,
   getSavedBuilds,
@@ -12,6 +11,7 @@ import {
   type SavedBuild,
 } from "@/lib/camperiada/saved-builds";
 import { DarkDialog, dialogButton } from "./dark-dialog";
+import { useDemoLocale } from "./use-demo-locale";
 
 export type LoadedProject = { id: string; name: string };
 
@@ -29,13 +29,16 @@ type Props = {
 type ModalMode = "create" | "saveAs" | "list" | null;
 
 const TOAST_MS = 2600;
-const STORAGE_ERROR = "Przeglądarka nie pozwala zapisać projektu (pamięć lokalna jest niedostępna).";
+/** Messages are kept as keys so they follow a language switch. */
+type ErrorKey = "storageError" | "nameRequired";
+type ToastKey = "toastChanges" | "toastAsNew" | "toastSaved";
 
 export function ProjectBar({ project, selectedIds, dirty, onSaved, onOpen, onDeleted }: Props) {
+  const { t, formatDate } = useDemoLocale();
   const builds = useSyncExternalStore(subscribeSavedBuilds, getSavedBuilds, getServerSavedBuilds);
   const [modal, setModal] = useState<ModalMode>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [toast, setToast] = useState<string | null>(null);
+  const [error, setError] = useState<ErrorKey | null>(null);
+  const [toast, setToast] = useState<ToastKey | null>(null);
 
   useEffect(() => {
     if (!toast) return;
@@ -54,10 +57,10 @@ export function ProjectBar({ project, selectedIds, dirty, onSaved, onOpen, onDel
   }
 
   /** Writes the current selection under `id`; false when storage refused. */
-  function store(id: string, name: string, message: string): boolean {
+  function store(id: string, name: string, message: ToastKey): boolean {
     const componentIds = [...selectedIds];
     if (!saveBuild({ id, name, componentIds, updatedAt: Date.now() })) {
-      setError(STORAGE_ERROR);
+      setError("storageError");
       return false;
     }
     onSaved({ id, name }, componentIds);
@@ -78,16 +81,16 @@ export function ProjectBar({ project, selectedIds, dirty, onSaved, onOpen, onDel
           </span>
           <div className="min-w-0">
             <p className="text-[11px] font-medium tracking-wider text-zinc-500 uppercase">
-              {project ? "Projekt" : "Nowy projekt"}
+              {project ? t.projects.project : t.projects.newProject}
             </p>
             <div className="flex min-w-0 items-center gap-2">
               <p className="truncate font-semibold text-white" title={project?.name}>
-                {project ? project.name : "Niezapisana konfiguracja"}
+                {project ? project.name : t.projects.unsaved}
               </p>
               {project && dirty ? (
                 <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-300">
                   <span aria-hidden className="size-1.5 rounded-full bg-amber-400" />
-                  Niezapisane zmiany
+                  {t.projects.unsavedChanges}
                 </span>
               ) : null}
               {toast ? (
@@ -96,7 +99,7 @@ export function ProjectBar({ project, selectedIds, dirty, onSaved, onOpen, onDel
                   className="inline-flex shrink-0 items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2 py-0.5 text-[11px] font-medium text-emerald-300"
                 >
                   <Check className="size-3" aria-hidden />
-                  {toast}
+                  {t.projects[toast]}
                 </span>
               ) : null}
             </div>
@@ -106,29 +109,29 @@ export function ProjectBar({ project, selectedIds, dirty, onSaved, onOpen, onDel
         <div className="flex flex-wrap items-center gap-2">
           <button type="button" onClick={() => openModal("list")} className={dialogButton.secondary}>
             <FolderOpen className="size-4" aria-hidden />
-            Moje projekty
+            {t.projects.mine}
             {builds.length > 0 ? <span className="tabular-nums">({builds.length})</span> : null}
           </button>
           {project ? (
             <>
               <button type="button" onClick={() => openModal("saveAs")} className={dialogButton.secondary}>
                 <CopyPlus className="size-4" aria-hidden />
-                Zapisz jako nowy
+                {t.projects.saveAs}
               </button>
               <button
                 type="button"
-                onClick={() => store(project.id, project.name, "Zapisano zmiany")}
+                onClick={() => store(project.id, project.name, "toastChanges")}
                 disabled={!dirty}
                 className={dialogButton.primary}
               >
                 {dirty ? <Save className="size-4" aria-hidden /> : <Check className="size-4" aria-hidden />}
-                {dirty ? "Zapisz zmiany" : "Zapisano"}
+                {dirty ? t.projects.saveChanges : t.projects.saved}
               </button>
             </>
           ) : (
             <button type="button" onClick={() => openModal("create")} className={dialogButton.primary}>
               <Save className="size-4" aria-hidden />
-              Zapisz projekt
+              {t.projects.saveProject}
             </button>
           )}
         </div>
@@ -136,33 +139,33 @@ export function ProjectBar({ project, selectedIds, dirty, onSaved, onOpen, onDel
 
       <p className="mt-2 flex items-start gap-1.5 px-1 text-xs text-zinc-500">
         <CloudOff className="mt-0.5 size-3.5 shrink-0" aria-hidden />
-        Tryb demo — zapis w chmurze jest wyłączony. Projekty zostają tylko w tej przeglądarce.
+        {t.projects.demoNotice}
       </p>
 
       {error && !modal ? (
         <p role="alert" className="mt-2 px-1 text-sm text-red-400">
-          {error}
+          {t.projects[error]}
         </p>
       ) : null}
 
       <DarkDialog
         open={modal === "create" || modal === "saveAs"}
         onClose={closeModal}
-        title={modal === "saveAs" ? "Zapisz jako nowy projekt" : "Zapisz projekt"}
-        description="Projekt zostanie zapisany lokalnie w tej przeglądarce — znajdziesz go w „Moje projekty”."
+        title={modal === "saveAs" ? t.projects.saveAsTitle : t.projects.saveProject}
+        description={t.projects.saveDescription}
       >
         {/* key: reset the uncontrolled input every time the dialog opens */}
         <SaveForm
           key={`${modal}-${project?.id}`}
-          defaultName={modal === "saveAs" && project ? `${project.name} (kopia)` : ""}
-          error={error}
+          defaultName={modal === "saveAs" && project ? `${project.name} ${t.projects.copySuffix}` : ""}
+          error={error ? t.projects[error] : null}
           onCancel={closeModal}
           onSubmit={(name) => {
             if (!name) {
-              setError("Podaj nazwę projektu.");
+              setError("nameRequired");
               return;
             }
-            const message = modal === "saveAs" ? "Zapisano jako nowy projekt" : "Projekt zapisany";
+            const message = modal === "saveAs" ? "toastAsNew" : "toastSaved";
             if (store(crypto.randomUUID(), name, message)) setModal(null);
           }}
         />
@@ -171,11 +174,11 @@ export function ProjectBar({ project, selectedIds, dirty, onSaved, onOpen, onDel
       <DarkDialog
         open={modal === "list"}
         onClose={closeModal}
-        title="Moje projekty"
-        description="Tryb demo — projekty są przechowywane tylko w tej przeglądarce."
+        title={t.projects.mine}
+        description={t.projects.listDescription}
       >
         {builds.length === 0 ? (
-          <p className="py-4 text-center text-sm text-zinc-500">Nie masz jeszcze zapisanych projektów.</p>
+          <p className="py-4 text-center text-sm text-zinc-500">{t.projects.listEmpty}</p>
         ) : (
           <ul className="flex max-h-80 flex-col gap-2 overflow-y-auto">
             {builds.map((b) => (
@@ -190,9 +193,7 @@ export function ProjectBar({ project, selectedIds, dirty, onSaved, onOpen, onDel
                 >
                   <span className="block truncate text-sm font-medium text-zinc-100">{b.name}</span>
                   <span className="block text-xs text-zinc-500">
-                    {b.componentIds.length}{" "}
-                    {pluralPl(b.componentIds.length, "element", "elementy", "elementów")} ·{" "}
-                    {new Date(b.updatedAt).toLocaleDateString("pl-PL")}
+                    {t.summary.items(b.componentIds.length)} · {formatDate(b.updatedAt)}
                   </span>
                 </button>
                 <button
@@ -200,8 +201,8 @@ export function ProjectBar({ project, selectedIds, dirty, onSaved, onOpen, onDel
                   onClick={() => {
                     if (deleteBuild(b.id) && b.id === project?.id) onDeleted();
                   }}
-                  aria-label={`Usuń projekt: ${b.name}`}
-                  title="Usuń projekt"
+                  aria-label={t.projects.deleteNamed(b.name)}
+                  title={t.projects.delete}
                   className="grid size-9 shrink-0 place-items-center rounded-lg text-zinc-500 transition hover:bg-red-500/10 hover:text-red-300"
                 >
                   <Trash2 className="size-4" aria-hidden />
@@ -226,6 +227,7 @@ function SaveForm({
   onCancel: () => void;
   onSubmit: (name: string) => void;
 }) {
+  const { t } = useDemoLocale();
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     onSubmit(String(new FormData(event.currentTarget).get("name") ?? "").trim());
@@ -235,13 +237,13 @@ function SaveForm({
     <form onSubmit={submit} noValidate className="flex flex-col gap-5">
       <div className="flex flex-col gap-1.5">
         <label htmlFor="project-name" className="text-sm font-medium text-zinc-200">
-          Nazwa projektu
+          {t.projects.nameLabel}
         </label>
         <input
           id="project-name"
           name="name"
           defaultValue={defaultName}
-          placeholder="np. Mój VW T5 na wakacje"
+          placeholder={t.projects.namePlaceholder}
           autoComplete="off"
           data-autofocus
           maxLength={80}
@@ -261,11 +263,11 @@ function SaveForm({
       </div>
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
         <button type="button" onClick={onCancel} className={dialogButton.secondary}>
-          Anuluj
+          {t.projects.cancel}
         </button>
         <button type="submit" className={dialogButton.primary}>
           <Save className="size-4" aria-hidden />
-          Zapisz
+          {t.projects.save}
         </button>
       </div>
     </form>
