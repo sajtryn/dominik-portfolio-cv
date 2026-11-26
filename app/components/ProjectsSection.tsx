@@ -15,7 +15,7 @@ import {
   ArrowUpRight,
   Bot,
   Caravan,
-  Dumbbell,
+  PencilRuler,
   SquareTerminal,
   type LucideIcon,
 } from "lucide-react";
@@ -39,6 +39,13 @@ type ProjectMeta = {
 
 const PROJECTS: ProjectMeta[] = [
   {
+    id: "camperiada",
+    icon: PencilRuler,
+    stack: ["Next.js", "TypeScript", "Tailwind", "SVG"],
+    href: "/projects/camperiada",
+    accent: { rgb: "16,185,129", text: "text-emerald-300", from: "from-emerald-500/25" },
+  },
+  {
     id: "camper",
     icon: Caravan,
     stack: ["Next.js", "TypeScript", "Tailwind"],
@@ -55,7 +62,7 @@ const PROJECTS: ProjectMeta[] = [
   // VicLift temporarily hidden; restore this entry to show it again.
   // {
   //   id: "viclift",
-  //   icon: Dumbbell,
+  //   icon: Dumbbell, // re-add to the lucide-react import
   //   stack: ["Next.js", "React Native / Expo", "Supabase"],
   //   href: "/projects/viclift",
   //   accent: { rgb: "163,230,53", text: "text-lime-300", from: "from-lime-500/25" },
@@ -174,6 +181,7 @@ function ProjectCard({
   const { t } = useLanguage();
   const p = t.projects;
   const copy = p.items[project.id];
+  const launch = "launch" in copy ? copy.launch : p.launch;
 
   const mx = useMotionValue(-400);
   const my = useMotionValue(-400);
@@ -283,7 +291,7 @@ function ProjectCard({
                 aria-hidden
                 className="inline-flex items-center gap-2 rounded-lg px-3 py-2 -ml-3 text-sm font-semibold text-slate-200 transition-colors duration-300 group-hover:bg-white/[0.05] group-hover:text-cyan-200"
               >
-                {p.launch}
+                {launch}
                 <ArrowUpRight
                   aria-hidden
                   className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
@@ -295,7 +303,7 @@ function ProjectCard({
                 title={p.comingSoon}
                 className="inline-flex cursor-not-allowed items-center gap-2 rounded-lg px-3 py-2 -ml-3 text-sm font-semibold text-slate-400"
               >
-                {p.launch}
+                {launch}
                 <ArrowUpRight aria-hidden className="size-4" />
                 <span className="sr-only">({p.comingSoon})</span>
               </span>
@@ -309,7 +317,7 @@ function ProjectCard({
           <Link
             href={href}
             {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            aria-label={`${copy.title} — ${p.launch}`}
+            aria-label={`${copy.title} — ${launch}`}
             className="absolute inset-0 z-10 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-300"
           />
         )}

@@ -12,8 +12,6 @@ import Link from "next/link";
 
 const PROMPT_USER = "dominik@portfolio";
 const PROMPT = `${PROMPT_USER}:~$`;
-const CV_PATH = "/cv.pdf";
-const CV_FILENAME = "Dominik-Rodziewicz-CV.pdf";
 
 const BOOT_LINES = [
   "Booting DominikOS v1.0...",
@@ -33,10 +31,11 @@ interface HistoryEntry {
   output: ReactNode;
 }
 
-type CommandName = "help" | "whoami" | "skills" | "lang" | "clear" | "download_cv";
-// download_cv is temporarily disabled: remove it from this exclusion to bring it back.
+type CommandName = "help" | "whoami" | "skills" | "lang" | "clear";
 const COMMAND_NAMES: CommandName[] = ["help", "whoami", "skills", "lang", "clear"];
 const isCommand = (s: string): s is CommandName => (COMMAND_NAMES as string[]).includes(s);
+// The CV download is temporarily disabled: these only print a notice (unlisted).
+const CV_COMMANDS = ["download", "cv", "download_cv"];
 
 type Strings = {
   languageName: string;
@@ -57,8 +56,7 @@ type Strings = {
   unsupported: (v: string) => string;
   notFound: string;
   typeHelp: [string, string];
-  downloading: string;
-  downloadFallback: string;
+  cvUnavailable: string;
 };
 
 const T: Record<Lang, Strings> = {
@@ -70,7 +68,6 @@ const T: Record<Lang, Strings> = {
       skills: "tech stack, structured",
       lang: "switch language: lang <en|pl|de>",
       clear: "clear the screen",
-      download_cv: "download the classic PDF resume",
     },
     available: "Available commands:",
     tip: "Tip: ↑/↓ recall previous commands · Tab completes · Ctrl+L clears.",
@@ -106,8 +103,7 @@ const T: Record<Lang, Strings> = {
     unsupported: (v) => `Unsupported language: ${v}`,
     notFound: "command not found:",
     typeHelp: ["type", "to see what's available."],
-    downloading: "Downloading cv.pdf...",
-    downloadFallback: "click here if it didn't start",
+    cvUnavailable: "CV is currently unavailable (update in progress). Please reach out via the contact form.",
   },
   pl: {
     languageName: "polski",
@@ -117,7 +113,6 @@ const T: Record<Lang, Strings> = {
       skills: "stack technologiczny w strukturze",
       lang: "zmiana języka: lang <en|pl|de>",
       clear: "wyczyść ekran",
-      download_cv: "pobierz klasyczne CV w PDF",
     },
     available: "Dostępne komendy:",
     tip: "Wskazówka: ↑/↓ przywraca poprzednie komendy · Tab uzupełnia · Ctrl+L czyści.",
@@ -153,8 +148,7 @@ const T: Record<Lang, Strings> = {
     unsupported: (v) => `Nieobsługiwany język: ${v}`,
     notFound: "nie znaleziono komendy:",
     typeHelp: ["wpisz", "aby zobaczyć dostępne komendy."],
-    downloading: "Pobieranie cv.pdf...",
-    downloadFallback: "kliknij tutaj, jeśli pobieranie się nie rozpoczęło",
+    cvUnavailable: "CV jest w tej chwili niedostępne (trwa aktualizacja). Odezwij się przez formularz kontaktowy.",
   },
   de: {
     languageName: "Deutsch",
@@ -164,7 +158,6 @@ const T: Record<Lang, Strings> = {
       skills: "Tech-Stack, strukturiert",
       lang: "Sprache wechseln: lang <en|pl|de>",
       clear: "Bildschirm leeren",
-      download_cv: "klassischen Lebenslauf als PDF herunterladen",
     },
     available: "Verfügbare Befehle:",
     tip: "Tipp: ↑/↓ ruft frühere Befehle auf · Tab vervollständigt · Strg+L leert.",
@@ -200,8 +193,7 @@ const T: Record<Lang, Strings> = {
     unsupported: (v) => `Nicht unterstützte Sprache: ${v}`,
     notFound: "Befehl nicht gefunden:",
     typeHelp: ["gib", "ein, um die verfügbaren Befehle zu sehen."],
-    downloading: "cv.pdf wird heruntergeladen...",
-    downloadFallback: "hier klicken, falls der Download nicht startet",
+    cvUnavailable: "Der Lebenslauf ist derzeit nicht verfügbar (wird aktualisiert). Bitte nutze das Kontaktformular.",
   },
 };
 
@@ -286,25 +278,6 @@ function SkillsOutput({ lang }: { lang: Lang }) {
   );
 }
 
-function DownloadOutput({ lang }: { lang: Lang }) {
-  const t = T[lang];
-  return (
-    <div>
-      <p>{t.downloading}</p>
-      <p>
-        <Dim>[████████████████████] 100% · </Dim>
-        <a
-          href={CV_PATH}
-          download={CV_FILENAME}
-          className="text-lime-300 underline underline-offset-2 hover:text-lime-200"
-        >
-          {t.downloadFallback}
-        </a>
-      </p>
-    </div>
-  );
-}
-
 function LangUsage({ lang, error }: { lang: Lang; error?: string }) {
   const t = T[lang];
   return (
@@ -318,15 +291,6 @@ function LangUsage({ lang, error }: { lang: Lang; error?: string }) {
       </p>
     </div>
   );
-}
-
-function triggerDownload() {
-  const a = document.createElement("a");
-  a.href = CV_PATH;
-  a.download = CV_FILENAME;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
 }
 
 export default function TerminalCvPage() {
@@ -382,6 +346,8 @@ export default function TerminalCvPage() {
     let output: ReactNode = null;
     if (!command) {
       output = null;
+    } else if (CV_COMMANDS.includes(name)) {
+      output = <p className="text-lime-300">{T[current].cvUnavailable}</p>;
     } else if (!isCommand(name)) {
       const t = T[current];
       output = (
@@ -412,9 +378,6 @@ export default function TerminalCvPage() {
       output = <WhoamiOutput lang={current} />;
     } else if (name === "skills") {
       output = <SkillsOutput lang={current} />;
-    } else if (name === "download_cv") {
-      triggerDownload();
-      output = <DownloadOutput lang={current} />;
     }
 
     nextId.current += 1;

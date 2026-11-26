@@ -147,6 +147,13 @@ const en = {
     launch: "Launch App",
     comingSoon: "Live demo coming soon",
     items: {
+      camperiada: {
+        category: "2D configurator · Live demo",
+        title: "Camperiada",
+        description:
+          "Campervan conversion configurator for the VW T5: place modules on layered 2D technical views and watch price, weight (against the vehicle's gross weight limit) and installation time recalculate instantly. No login needed; the demo UI is in Polish.",
+        launch: "Live Demo",
+      },
       camper: {
         category: "Industrial IoT · Live demo",
         title: "Smart Camper IoT Telemetry",
@@ -379,6 +386,13 @@ const pl: Dictionary = {
     launch: "Uruchom aplikację",
     comingSoon: "Demo na żywo już wkrótce",
     items: {
+      camperiada: {
+        category: "Konfigurator 2D · Demo na żywo",
+        title: "Camperiada",
+        description:
+          "Konfigurator zabudowy kampera VW T5: dobieraj moduły na warstwowych rzutach 2D, a cena, masa (względem DMC) i czas montażu przeliczają się na bieżąco. Bez logowania.",
+        launch: "Uruchom Demo",
+      },
       camper: {
         category: "Przemysłowe IoT · Demo na żywo",
         title: "Smart Camper IoT Telemetry",
@@ -605,6 +619,13 @@ const de: Dictionary = {
     launch: "App starten",
     comingSoon: "Live-Demo folgt in Kürze",
     items: {
+      camperiada: {
+        category: "2D-Konfigurator · Live-Demo",
+        title: "Camperiada",
+        description:
+          "Ausbau-Konfigurator für den VW-T5-Campervan: Module auf mehrschichtigen 2D-Ansichten platzieren, während Preis, Gewicht (mit zulässigem Gesamtgewicht) und Montagezeit sofort neu berechnet werden. Ohne Login; die Demo-Oberfläche ist auf Polnisch.",
+        launch: "Demo starten",
+      },
       camper: {
         category: "Industrielles IoT · Live-Demo",
         title: "Smart Camper IoT Telemetry",
