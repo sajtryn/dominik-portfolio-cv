@@ -336,6 +336,12 @@ export default function Home() {
           >
             <MagneticButton href="#projects">{t.hero.ctaWork}</MagneticButton>
             <a
+              href="#contact"
+              className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/[0.03] px-7 py-3.5 text-sm font-semibold text-slate-200 backdrop-blur transition-colors duration-300 hover:border-cyan-400/50 hover:bg-cyan-400/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#05060a]"
+            >
+              {t.hero.ctaContact}
+            </a>
+            <a
               href="#about"
               className="group inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-slate-300 transition-colors duration-300 hover:bg-white/[0.04] hover:text-cyan-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#05060a]"
             >
@@ -344,12 +350,6 @@ export default function Home() {
                 aria-hidden
                 className="size-4 transition-transform duration-300 group-hover:translate-y-0.5"
               />
-            </a>
-            <a
-              href="#contact"
-              className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/[0.03] px-7 py-3.5 text-sm font-semibold text-slate-200 backdrop-blur transition-colors duration-300 hover:border-cyan-400/50 hover:bg-cyan-400/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#05060a]"
-            >
-              {t.hero.ctaContact}
             </a>
           </motion.div>
         </motion.div>
@@ -361,9 +361,9 @@ export default function Home() {
       </section>
 
       <QuickActions />
-      <ResumeSection />
-      <ProjectsSection />
       <ContactSection />
+      <ProjectsSection />
+      <ResumeSection />
       <SiteFooter />
     </main>
   );

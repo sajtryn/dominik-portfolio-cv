@@ -53,7 +53,7 @@ const en = {
     badgeDatabase: "Database",
   },
   resume: {
-    eyebrow: "// 02 — Resume & Experience",
+    eyebrow: "// 04 — Resume & Experience",
     titleStart: "Engineering meets",
     titleAccent: "business",
     titleEnd: ".",
@@ -174,7 +174,7 @@ const en = {
     },
   },
   contact: {
-    eyebrow: "// 04 — Contact & Project Starter",
+    eyebrow: "// 02 — Contact & Project Starter",
     titleStart: "Let's build",
     titleAccent: "something solid",
     titleEnd: ".",
@@ -288,7 +288,7 @@ const pl: Dictionary = {
     badgeDatabase: "Bazy danych",
   },
   resume: {
-    eyebrow: "// 02 — CV i doświadczenie",
+    eyebrow: "// 04 — CV i doświadczenie",
     titleStart: "Inżynieria spotyka",
     titleAccent: "biznes",
     titleEnd: ".",
@@ -408,7 +408,7 @@ const pl: Dictionary = {
     },
   },
   contact: {
-    eyebrow: "// 04 — Kontakt i start projektu",
+    eyebrow: "// 02 — Kontakt i start projektu",
     titleStart: "Zbudujmy",
     titleAccent: "coś solidnego",
     titleEnd: ".",
@@ -516,7 +516,7 @@ const de: Dictionary = {
     badgeDatabase: "Datenbanken",
   },
   resume: {
-    eyebrow: "// 02 — Lebenslauf & Erfahrung",
+    eyebrow: "// 04 — Lebenslauf & Erfahrung",
     titleStart: "Technik trifft",
     titleAccent: "Business",
     titleEnd: ".",
@@ -636,7 +636,7 @@ const de: Dictionary = {
     },
   },
   contact: {
-    eyebrow: "// 04 — Kontakt & Projektstart",
+    eyebrow: "// 02 — Kontakt & Projektstart",
     titleStart: "Lassen Sie uns",
     titleAccent: "etwas Solides",
     titleEnd: " bauen.",
